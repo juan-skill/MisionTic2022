@@ -1,0 +1,26 @@
+The ``test`` module
+======================
+
+Using ``find_winner``
+-------------------
+
+This is an example text file in reStructuredText format.  First import
+``find_winner`` from the ``test`` module:
+
+
+>>> find_winner = __import__("soccer").find_winner
+
+>>> print(find_winner("NEBT", "GMJO", "GZEZKBTO"))
+PPEEEJJJ
+
+>>> print(find_winner("QJEBP", "CSYQR", "OMSZREBRPMRQAJAQMBNCBERYGP"))
+EEPPPPEPEEPPPEEEEJJEJJJEEJ
+
+>>> print(find_winner("RCAYP", "YCTAD", "EGMPYBTBMGZPBQBDZESRDMGEM"))
+EEEJJJEEEEEJJJJEEEEJEEEEE
+
+>>> print(find_winner("JNS", "MBO", "QETESSTPGZPGBYOABCCSJDYQCKNO"))
+EEEEJJJJJJJJJJEEPPPEJJJJJJJJ
+
+>>> print(find_winner("MZDT", "DPBA", "OCOKPGCNMOAERANNYTYCPMSKKEE"))
+EEEEPPPPEEPPPPPPPPPPPPPPPPP
