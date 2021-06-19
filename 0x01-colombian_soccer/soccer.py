@@ -9,9 +9,11 @@ def find_winner(list_jimena, list_pedro, win_teams):
     """
     find the winner between Jimena and Pedro
     """
+    """
     print(list_jimena)
     print(list_pedro)
     print(win_teams)
+    """
 
     counter_two = {"jimena": 0, "pedro": 0}
     compare_list = []
@@ -44,9 +46,9 @@ def find_winner(list_jimena, list_pedro, win_teams):
 
         # print(compare_list)
 
-    print("".join(compare_list), end=" ")
+    # print(counter_two)
 
-    return counter_two
+    return "".join(compare_list)
 
 
 if __name__ == "__main__":
