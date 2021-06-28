@@ -1,0 +1,31 @@
+The ``test`` module
+======================
+
+Using ``find_frecuency``
+-------------------
+
+This is an example text file in reStructuredText format.  First import
+``find_frecuency`` from the ``test`` module:
+
+
+>>> find_frecuency = __import__("consecutive_flights").find_frecuency
+
+>>> print(find_frecuency("C C G G G F F F C C"))
+C G F C
+2 3 3 2
+
+>>> print(find_frecuency("V V F F F I N X X X J J G K K K K U U A"))
+V F I N X J G K U A
+2 3 1 1 3 2 1 4 2 1
+
+>>> print(find_frecuency("U U U T E E E E W W W D D U U U V V L L A A A A T"))
+U T E W D U V L A T
+3 1 4 3 2 3 2 2 4 1
+
+>>> print(find_frecuency("X X S I J V V V V C K K K N N N N W E E E E"))
+X S I J V C K N W E
+2 1 1 1 4 1 3 4 1 4
+
+>>> print(find_frecuency("I I I C I I I E W W A A A A G G G G E E E U U M M M"))
+I C I E W A G E U M
+3 1 3 1 2 4 4 3 2 3
