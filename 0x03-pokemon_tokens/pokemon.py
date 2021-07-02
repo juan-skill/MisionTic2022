@@ -11,8 +11,6 @@ def format_dictionary(json_info):
     """
     store_colection = {}
 
-    # print(json_info)
-
     items_string = json_info[1:len(json_info) - 1].split(",")
 
     for item in items_string:
@@ -31,9 +29,11 @@ def compare_token(list_token, **store_colection):
 
     my_tokens = {}
     price_total = 0
-    for pokemon_name, price in store_colection.items():
-        if pokemon_name in list_token:
-            my_tokens[pokemon_name] = price
+
+    for my_token in list_token:
+        if my_token in store_colection.keys():
+            price = store_colection[my_token]
+            my_tokens[my_token] = price
             price_total += price
 
     token_buy = []
