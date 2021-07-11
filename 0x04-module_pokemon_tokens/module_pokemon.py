@@ -77,4 +77,8 @@ def cantidad_laminas_cambiables(laminas_persona1, laminas_persona2):
         int:  the number of sheets that they can change.
 
     """
-    return len(laminas_persona2) - len(set(laminas_persona1) & set(laminas_persona2))
+    intersection = set(laminas_persona1) & set(laminas_persona2)
+
+    laminas_persona1 = set(laminas_persona1) ^ intersection
+    laminas_persona2 = set(laminas_persona2) ^ intersection
+    return min(len(laminas_persona1), len(laminas_persona2))
