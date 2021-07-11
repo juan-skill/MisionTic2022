@@ -19,7 +19,12 @@ def lista_clases(classes):
                in strict order in which the classes are detected
                if they are read from the first to the last..
     """
-    pass
+    found_classes = []
+    for item in classes:
+        if item not in found_classes:
+            found_classes.append(item)
+
+    return found_classes
 
 
 def laminas_faltantes_por_clase(indices, clases, class_to_verify):
@@ -52,7 +57,7 @@ def laminas_faltantes(personal_cards1, personal_cards2):
         list: the list with the sheets that Fernando would be interested
         in exchanging from his friend's list.
     """
-    pass
+    return [item for item in personal_cards1 if item not in personal_cards2]
 
 
 def cantidad_laminas_cambiables(laminas_persona1, laminas_persona2):
@@ -72,4 +77,4 @@ def cantidad_laminas_cambiables(laminas_persona1, laminas_persona2):
         int:  the number of sheets that they can change.
 
     """
-    pass
+    return len(laminas_persona2) - len(set(laminas_persona1) & set(laminas_persona2))
