@@ -42,7 +42,7 @@ def laminas_faltantes_por_clase(indices, clases, class_to_verify):
         list:  a list with the indexes of the sheets of that particular class
                that Fernando is missing
     """
-    pass
+    return [index for index in indices if clases[index] == class_to_verify]
 
 
 def laminas_faltantes(personal_cards1, personal_cards2):
