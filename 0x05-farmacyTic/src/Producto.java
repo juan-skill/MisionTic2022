@@ -1,9 +1,9 @@
 public class Producto
 {
-    private String name;
-    private Long code;
-    private Float price;
-    private String brand;
+    protected String name;
+    protected Long code;
+    protected Float price;
+    protected String brand;
 
     public Producto(String name, Long code, Float price, String brand)
     {
