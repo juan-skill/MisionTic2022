@@ -4,6 +4,11 @@ import java.util.Scanner;
 
 public class DrogeriaTic {
 
+    /**
+     * procesarEntrada - parse input String to save into arraylist
+     * @param input
+     * @return
+     */
     public static ArrayList<String> procesarEntrada(String input)
     {
         ArrayList<String> parse = new ArrayList<String>();
@@ -24,6 +29,11 @@ public class DrogeriaTic {
         return parse;
     }
 
+    /**
+     * Main - Prepares the control flow according the input
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception
     {
         Scanner sc = new Scanner(System.in);

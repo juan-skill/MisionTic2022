@@ -5,6 +5,13 @@ public class Producto
     protected Float price;
     protected String brand;
 
+    /**
+     * Product - constructor of Producto class
+     * @param name
+     * @param code
+     * @param price
+     * @param brand
+     */
     public Producto(String name, Long code, Float price, String brand)
     {
         this.name = name;
