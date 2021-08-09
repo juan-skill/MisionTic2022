@@ -9,8 +9,6 @@ public class DrogeriaTic {
         ArrayList<String> parse = new ArrayList<String>();
         String word = "";
 
-        //1&Medicamento&nombre&codigo&precio&marca&concentracion
-        //1&Alimentos&nombre&codigo&precio&marca&presentacion
         for (int i = 0; i < input.length(); i++)
         {
             if (input.charAt(i) != '&')
@@ -20,8 +18,7 @@ public class DrogeriaTic {
             {
                 parse.add(word);
                 word = "";
-            }
-            
+            }            
         }
 
         return parse;
@@ -37,27 +34,23 @@ public class DrogeriaTic {
         int op = 0;
 
         do {
-            //parse = procesarEntrada("1&Alimentos&nombre&codigo&precio&marca&presentacion");
             parse = procesarEntrada(sc.nextLine());
             op = Integer.parseInt(parse.get(0));
             switch (op)
             {
-                case 1: // add a new product
-                        System.out.println("case 1");
-                        
-                        if ("Medicamento".compareToIgnoreCase(parse.get(1)) >= 1)
+                case 1: // add a new product                   
+                        if (parse.get(1).equals("Medicamento"))
                         {
-                            product = new Medicamento(parse.get(6), parse.get(2), Long.parseLong(parse.get(4)), Float.parseFloat(parse.get(4)), parse.get(5));
+                            product = new Medicamento(parse.get(6), parse.get(2), Long.parseLong(parse.get(3)), Float.parseFloat(parse.get(4)), parse.get(5));
                         }
-                        else if ("Alimentos".compareToIgnoreCase(parse.get(1)) >= 1)
+                        else if (parse.get(1).equals("Alimentos"))
                         {
-                            product = new Alimentos(parse.get(6), parse.get(2), Long.parseLong(parse.get(4)), Float.parseFloat(parse.get(4)), parse.get(5));
+                            product = new Alimentos(parse.get(6), parse.get(2), Long.parseLong(parse.get(3)), Float.parseFloat(parse.get(4)), parse.get(5));
                         }
                         listProducts.add(product);
                         break;
 
                 case 2: // show all of the products
-                        System.out.println("case 2");
 
                         it = listProducts.iterator();
                         System.out.println("***DrogueriaTic***");
@@ -66,7 +59,6 @@ public class DrogeriaTic {
                         }
                         break;                
             }
-
         } while (op != 3);
 
         sc.close();
