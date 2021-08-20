@@ -11,12 +11,22 @@ public class FuncionesProducto
     /**
      * obtenerProductos - generates a list of names without duplicates
      * 
-     * @param list
+     * @param list to check the duplicates numbers
      * @return
      */
     public ArrayList<String> obtenerProductos(ArrayList<String> list)
     {
-        return null;
+        ArrayList<String> notduplicates = new ArrayList<String>();
+        
+        for (String element : list)
+        {
+            if (!notduplicates.contains(element.toLowerCase()))
+            {
+                notduplicates.add(element);
+            }
+        }
+        
+        return notduplicates;
     }
 
     /**
