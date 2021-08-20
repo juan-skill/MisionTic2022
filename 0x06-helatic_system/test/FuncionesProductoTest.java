@@ -136,7 +136,7 @@ public class FuncionesProductoTest
         lOtro.add("PALETA DE CHOCOLATE");
         lOtro.add("PALETA DE AGUA");
         lOtro.add("HELADO DE MANI");
-        lOtro.add("PALETA DE FRESA");
+        lOtro.add("FRESAS EN CREMA");
         
 
         //lHelaTic = [‘HELADO MARACUMANGO’, 'CHOCOCONO', 'PALETA DE AGUA', 'HELADO DE MANI', 'PALETA DE MANGO BICHE', ‘HELADO MARACUMANGO’, ‘GUANABANAZO’]

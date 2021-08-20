@@ -86,31 +86,30 @@ public class FuncionesProducto
     public Integer obtenerProductosIntercambiables(ArrayList<String> lOtro, ArrayList<String> lHelaTic)
     {
         ArrayList<String> other = new ArrayList<>();
+        int before = 0, after = 0;
 
         for (String element : lOtro)
         {
-            if (lHelaTic.contains(element))
+            if (!lHelaTic.contains(element) && !other.contains(element))
             {
-                System.out.println(element);
                 other.add(element);
             }
         }
+
+        before = other.size();
+        System.out.print("\n\n");
 
         for (String element : lHelaTic)
         {
-            if (!other.contains(element))
+            if (!lOtro.contains(element) && !other.contains(element))
             {
-                System.out.println(element);
                 other.add(element);
             }
         }
 
-        if (other.size() % 2 == 0)
-        {
-            return other.size() / 2;    
-        }
+        after = other.size() - before;
 
-        return (other.size() - 1) / 2;
+        return Integer.min(before, after);
     }
 
 }
