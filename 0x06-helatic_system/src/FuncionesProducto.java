@@ -32,14 +32,24 @@ public class FuncionesProducto
     /**
      * obtenerPosicionesProductosFaltantes - generates a list with the products' indexes missing
      * 
-     * @param IPos
-     * @param tipos
-     * @param cat
+     * @param IPos - que contiene las posiciones de los productos que faltan
+     * @param tipos - contiene los nombres de los productos faltantes
+     * @param cat -  el nombre de un producto
      * @return
      */
     public ArrayList<Integer> obtenerPosicionesProductosFaltantes(ArrayList<Integer> IPos, ArrayList<String> tipos, String cat)
     {
-        return null;
+        ArrayList<Integer> missingItems = new ArrayList<>();
+
+        for (Integer element_index : IPos)
+        {
+            if (tipos.get(element_index).equalsIgnoreCase(cat))
+            {
+                missingItems.add(element_index);
+            }    
+        }
+
+        return missingItems;
     }
 
     /**

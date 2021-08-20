@@ -57,4 +57,38 @@ public class FuncionesProductoTest
         //fail("The test case is a prototype");
     }
 
+    @Test
+    public void testObtenerPosicionesProductosFaltantes()
+    {
+        ArrayList<Integer> lPos = new ArrayList<>();
+        // lPos = [0, 1, 4, 5, 6]
+        lPos.add(0);
+        lPos.add(1);
+        lPos.add(4);
+        lPos.add(5);
+        lPos.add(6);
+
+        //tipos = [‘HELADO MARACUMANGO’, 'CHOCOCONO', 'PALETA DE AGUA', 'HELADO DE MANI', 'PALETA DE MANGO BICHE', ‘HELADO MARACUMANGO’, 'CHOCOCONO']
+        ArrayList<String> ltipos = new ArrayList<>();
+        ltipos.add("HELADO MARACUMANGO"); 
+        ltipos.add("CHOCOCONO"); 
+        ltipos.add("PALETA DE AGUA"); 
+        ltipos.add("HELADO DE MANI"); 
+        ltipos.add("PALETA DE MANGO BICHE");
+        ltipos.add("HELADO MARACUMANGO");
+        ltipos.add("CHOCOCONO");
+        
+
+        //cat = ‘HELADO MARACUMANGO’
+        String cat = "HELADO MARACUMANGO";
+
+        ArrayList<Integer> expResult = new ArrayList<>();
+        expResult.add(0);
+        expResult.add(5);
+
+        ArrayList<Integer> result = instance.obtenerPosicionesProductosFaltantes(lPos, ltipos, cat);
+
+        assertEquals(expResult, result);
+    }
+
 }
