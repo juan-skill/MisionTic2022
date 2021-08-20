@@ -91,4 +91,41 @@ public class FuncionesProductoTest
         assertEquals(expResult, result);
     }
 
+    @Test
+    public void testObtenerFaltantes()
+    {
+        //lOtro =[‘BANANA SPLIT’, 'CHOCOCONO', ‘PALETA DE FRESA’, ‘PALETA DE CHOCOLATE’, 'PALETA DE AGUA', 'HELADO DE MANI’]
+        ArrayList<String> lOtro = new ArrayList<>();
+        lOtro.add("BANANA SPLIT");
+        lOtro.add("CHOCOCONO");
+        lOtro.add("PALETA DE FRESA");
+        lOtro.add("PALETA DE CHOCOLATE");
+        lOtro.add("PALETA DE AGUA");
+        lOtro.add("HELADO DE MANI");
+        
+
+        //lHelaTic = [‘HELADO MARACUMANGO’, 'CHOCOCONO', 'PALETA DE AGUA', 'HELADO DE MANI', 'PALETA DE MANGO BICHE', ‘HELADO MARACUMANGO’, 'CHOCOCONO']
+        ArrayList<String> lHelaTic = new ArrayList<>();
+        lHelaTic.add("HELADO MARACUMANGO");
+        lHelaTic.add("CHOCOCONO");
+        lHelaTic.add("PALETA DE AGUA");
+        lHelaTic.add("HELADO DE MANI");
+        lHelaTic.add("PALETA DE MANGO BICHE");
+        lHelaTic.add("HELADO MARACUMANGO");
+        lHelaTic.add("CHOCOCONO");
+        
+        //['BANANA SPLIT’, ‘PALETA DE FRESA’, 'PALETA DE CHOCOLATE']
+        ArrayList<String> expResult = new ArrayList<>();
+        expResult.add("BANANA SPLIT");
+        expResult.add("PALETA DE FRESA");
+        expResult.add("PALETA DE CHOCOLATE");
+        
+
+        ArrayList<String> result = instance.obtenerFaltantes(lOtro, lHelaTic);
+
+        assertEquals(expResult, result);
+
+
+    }
+
 }

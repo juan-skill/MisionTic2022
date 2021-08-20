@@ -55,13 +55,24 @@ public class FuncionesProducto
     /**
      * obtenerFaltantes - returns a list with the products that HelaTic is interested
      * 
-     * @param lOtro
-     * @param lHelaTic
-     * @return
+     * @param lOtro - productos que vende otra heladería llamada lOtro
+     * @param lHelaTic - productos que vende HelaTic actualmente llamada lHelaTic
+     * @return - lista de productos que les interesa de la otra heladería, 
+     *           es decir aquellos productos que vende la otra heladería y no vende HelaTic.
      */
     public ArrayList<String> obtenerFaltantes(ArrayList<String> lOtro, ArrayList<String> lHelaTic)
     {
-        return null;
+        ArrayList<String> lOtroMissing = new ArrayList<>();
+
+        for (String element : lOtro)
+        {
+            if (!lHelaTic.contains(element))
+            {
+                lOtroMissing.add(element);
+            }    
+        }
+
+        return lOtroMissing;
     }
 
     /**
