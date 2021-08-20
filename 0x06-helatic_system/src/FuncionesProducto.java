@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 public class FuncionesProducto
 {
     /**
@@ -78,13 +79,38 @@ public class FuncionesProducto
     /**
      * obtenerProductosIntercambiables - finds the missing products entered in both list, return an exchange number each other
      * 
-     * @param lOtro
-     * @param lHelaTic
-     * @return
+     * @param lOtro - list to compare
+     * @param lHelaTic -list to compare
+     * @return - the minimum number of comparations
      */
     public Integer obtenerProductosIntercambiables(ArrayList<String> lOtro, ArrayList<String> lHelaTic)
     {
-        return 0;
+        ArrayList<String> other = new ArrayList<>();
+
+        for (String element : lOtro)
+        {
+            if (lHelaTic.contains(element))
+            {
+                System.out.println(element);
+                other.add(element);
+            }
+        }
+
+        for (String element : lHelaTic)
+        {
+            if (!other.contains(element))
+            {
+                System.out.println(element);
+                other.add(element);
+            }
+        }
+
+        if (other.size() % 2 == 0)
+        {
+            return other.size() / 2;    
+        }
+
+        return (other.size() - 1) / 2;
     }
 
 }

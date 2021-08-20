@@ -118,14 +118,42 @@ public class FuncionesProductoTest
         ArrayList<String> expResult = new ArrayList<>();
         expResult.add("BANANA SPLIT");
         expResult.add("PALETA DE FRESA");
-        expResult.add("PALETA DE CHOCOLATE");
-        
+        expResult.add("PALETA DE CHOCOLATE");        
 
         ArrayList<String> result = instance.obtenerFaltantes(lOtro, lHelaTic);
 
         assertEquals(expResult, result);
+    }
 
+    @Test
+    public void obtenerProductosIntercambiables()
+    {
+        //lOtro  =[‘BANANA SPLIT’, 'CHOCOCONO', ‘PALETA DE FRESA’, ‘PALETA DE CHOCOLATE’, 'PALETA DE AGUA', 'HELADO DE MANI’,’FRESAS EN CREMA’]
+        ArrayList<String> lOtro = new ArrayList<String>();
+        lOtro.add("BANANA SPLIT");
+        lOtro.add("CHOCOCONO");
+        lOtro.add("PALETA DE FRESA");
+        lOtro.add("PALETA DE CHOCOLATE");
+        lOtro.add("PALETA DE AGUA");
+        lOtro.add("HELADO DE MANI");
+        lOtro.add("PALETA DE FRESA");
+        
 
+        //lHelaTic = [‘HELADO MARACUMANGO’, 'CHOCOCONO', 'PALETA DE AGUA', 'HELADO DE MANI', 'PALETA DE MANGO BICHE', ‘HELADO MARACUMANGO’, ‘GUANABANAZO’]
+        ArrayList<String> lHelaTic = new ArrayList<String>();
+        lHelaTic.add("HELADO MARACUMANGO");
+        lHelaTic.add("CHOCOCONO");
+        lHelaTic.add("PALETA DE AGUA");
+        lHelaTic.add("HELADO DE MANI");
+        lHelaTic.add("PALETA DE MANGO BICHE");
+        lHelaTic.add("HELADO MARACUMANGO");
+        lHelaTic.add("GUANABANAZO");
+
+        int expResult = 3;
+
+        int result = instance.obtenerProductosIntercambiables(lOtro, lHelaTic);
+
+        assertEquals(expResult, result);
     }
 
 }
