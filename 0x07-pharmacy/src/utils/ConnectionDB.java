@@ -18,7 +18,6 @@ import org.json.simple.parser.*;
 
 /**
  *
- * @author casierrav
  */
 public class ConnectionDB {
     
@@ -29,25 +28,31 @@ public class ConnectionDB {
     public static Connection getConnection() {
         JSONParser parser = new JSONParser();
         Connection conn = null;
-        // conectar
-        try {
+        String host, port, username, password, database, dbURL;
+        
+        try
+        {
             String credentials_path = System.getProperty("user.dir") + "/src/utils/db_credentials.json";
             JSONObject jsonObject = (JSONObject)parser.parse(new FileReader(credentials_path));
             
-            String host     = (String) jsonObject.get("db_ip");
-            String port     = (String) jsonObject.get("dp_port");
-            String username = (String) jsonObject.get("db_user");
-            String password = (String) jsonObject.get("db_pssword");
-            String dbURL = "jdbc:mysql://"+host+":"+port+"/pharmacy" ;
+            host     = (String) jsonObject.get("db_ip");
+            port     = (String) jsonObject.get("dp_port");
+            username = (String) jsonObject.get("db_user");
+            password = (String) jsonObject.get("db_pssword");
+            database = (String) jsonObject.get("db_database");
+            
+            dbURL = "jdbc:mysql://" + host + ":" + port + "/" + database ;
             
             conn = DriverManager.getConnection(dbURL, username, password);
             if (conn != null) 
                 System.out.println ( "Conectado" );
         } 
-        catch( SQLException | FileNotFoundException ex ) {
+        catch( SQLException | FileNotFoundException ex )
+        {
             ex.printStackTrace();
         } 
-        catch (IOException | ParseException ex) {
+        catch (IOException | ParseException ex)
+        {
             ex.printStackTrace();
         }
         
