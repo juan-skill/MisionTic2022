@@ -17,23 +17,73 @@ import org.json.simple.parser.*;
 
 
 /**
- *
+ * Class provides a static method to get its static instance 
+ * to communicate with database.
  */
-public class ConnectionDB {
+public class ConnectionDB 
+{
+    // -----------------------------------------------------------------
+    // Constants
+    // -----------------------------------------------------------------    
     
     /**
-     * 
-     * @return 
+     * Constant to get access credentials to mysql server
      */
-    public static Connection getConnection() {
+    private static final String credentialsFile = "db_credentials";
+
+    // -----------------------------------------------------------------
+    // Class attributes
+    // -----------------------------------------------------------------
+
+    /**
+     * Hostname of the mysql server.
+     */
+    private static String host = "";
+
+    /**
+     * Port of the mysql server.
+     */
+    private static String port = "";
+    
+    /**
+     * Username to access to the mysql server.
+     */
+    private static String username = "";
+
+    /**
+     * Password to access to the mysql server.
+     */
+    private static String password = "";
+
+    /**
+     * Database name to access to the mysql server.
+     */
+    private static String database = "";
+
+    /**
+     * URI to communicate to the mysql server.
+     */
+    private static String dbURL = "";
+
+    // -----------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------
+
+    /**
+     * Get the only object available to connect to the database.
+     * @return An instance to connect to the database.
+     */
+    public static Connection getConnection()
+    {
         JSONParser parser = new JSONParser();
-        Connection conn = null;
-        String host, port, username, password, database, dbURL;
+        Connection conn = null;        
+        String credentials_path = "";
+        JSONObject jsonObject = null;
         
         try
         {
-            String credentials_path = System.getProperty("user.dir") + "/src/utils/db_credentials.json";
-            JSONObject jsonObject = (JSONObject)parser.parse(new FileReader(credentials_path));
+            credentials_path = System.getProperty("user.dir") + "/src/utils/" + credentialsFile + ".json";
+            jsonObject = (JSONObject)parser.parse(new FileReader(credentials_path));
             
             host     = (String) jsonObject.get("db_ip");
             port     = (String) jsonObject.get("dp_port");
@@ -57,9 +107,5 @@ public class ConnectionDB {
         }
         
         return conn;
-    }
-    
-    public static void main(String[] args){
-        getConnection();
     }
 }
