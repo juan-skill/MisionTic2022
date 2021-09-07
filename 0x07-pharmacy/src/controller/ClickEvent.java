@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import view.viewproveedor.DataPanel;
-import view.viewproveedor.PestañaProveedor;
+import view.viewproveedor.VendorTab;
 import view.viewproveedor.BarPanel;
 import view.viewproveedor.ButtonPanel;
 
@@ -22,13 +22,13 @@ import model.VendorModel;
  */
 public class ClickEvent implements ActionListener, KeyListener
 {
-    private PestañaProveedor pestañaProveedor;
+    private VendorTab pestañaProveedor;
     private VendorDAO vendorModel;
     private DataPanel vDataPanel;
     private ButtonPanel vPanelBotones;
     private BarPanel vPanelBarras;
 
-    public ClickEvent (PestañaProveedor pestañaProveedor)
+    public ClickEvent (VendorTab pestañaProveedor)
     {
         this.vendorModel = new VendorDAO();
         this.pestañaProveedor = pestañaProveedor;

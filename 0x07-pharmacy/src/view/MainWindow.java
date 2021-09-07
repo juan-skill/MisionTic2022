@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 import javax.swing.UIManager;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import view.viewproveedor.PestañaProveedor;
+import view.viewproveedor.VendorTab;
 
 import controller.ClickEvent;
 
@@ -21,7 +21,7 @@ import controller.ClickEvent;
 public class MainWindow extends JFrame {
     
     private JTabbedPane pestañas;
-    private PestañaProveedor pProveedor;
+    private VendorTab pProveedor;
 
     public MainWindow(){
         initComponents();
@@ -37,7 +37,7 @@ public class MainWindow extends JFrame {
             e.printStackTrace();
         }
         
-        this.pProveedor = new PestañaProveedor();
+        this.pProveedor = new VendorTab();
         /*PanelT2 panelT2 = new PanelT2();
         PanelT3 panelT3 = new PanelT3();
         */
@@ -73,7 +73,7 @@ public class MainWindow extends JFrame {
      * retornar el panel de la pestaña Proveedor
      * @return
      */
-    public PestañaProveedor getPestañaProveedor()
+    public VendorTab getVendorTab()
     {
         return pProveedor;
     }
