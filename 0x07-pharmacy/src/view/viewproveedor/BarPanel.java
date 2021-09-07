@@ -110,7 +110,8 @@ public class BarPanel extends JPanel
     }
 
     /**
-     * Display information about a database transaction
+     * Display information about a database transaction.
+     * @param message Message to display.
      */
     public void showAnswer(String message)
     {

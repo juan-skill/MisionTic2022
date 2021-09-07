@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-import view.viewproveedor.PanelDatos;
+import view.viewproveedor.DataPanel;
 import view.viewproveedor.PestañaProveedor;
 import view.viewproveedor.BarPanel;
 import view.viewproveedor.ButtonPanel;
@@ -24,7 +24,7 @@ public class ClickEvent implements ActionListener, KeyListener
 {
     private PestañaProveedor pestañaProveedor;
     private VendorDAO vendorModel;
-    private PanelDatos vPanelDatos;
+    private DataPanel vDataPanel;
     private ButtonPanel vPanelBotones;
     private BarPanel vPanelBarras;
 
@@ -32,10 +32,10 @@ public class ClickEvent implements ActionListener, KeyListener
     {
         this.vendorModel = new VendorDAO();
         this.pestañaProveedor = pestañaProveedor;
-        this.vPanelDatos = pestañaProveedor.getPanelDatos();
+        this.vDataPanel = pestañaProveedor.getDataPanel();
         this.vPanelBotones = pestañaProveedor.getPanelBotones();        
         this.vPanelBarras = pestañaProveedor.getPanelBarras();        
-        this.vPanelBotones.asignarEscuchas(this);
+        this.vPanelBotones.assingListenToBtn(this);
         this.vPanelBotones.assingListenToTField(this);
     }
 
@@ -51,15 +51,15 @@ public class ClickEvent implements ActionListener, KeyListener
         {
             try
             {
-                name = vPanelDatos.getNombre();
-                numberID = Long.parseLong(vPanelDatos.getId());
-                city = vPanelDatos.getCiudad();
-                address = vPanelDatos.getDireccion();
+                name = vDataPanel.getName();
+                numberID = Long.parseLong(vDataPanel.getId());
+                city = vDataPanel.getCity();
+                address = vDataPanel.getAddress();
                 
                 vendor = new VendorModel(numberID, name, city, address);
     
                 vPanelBarras.showAnswer(vendorModel.insertVendor(vendor));
-                vPanelDatos.cleanTextFiel();
+                vDataPanel.cleanTextFiel();
                 listaC = vendorModel.getAllVendors();
                 vPanelBarras.mostrarDatosTable(listaC);
             }
@@ -80,9 +80,9 @@ public class ClickEvent implements ActionListener, KeyListener
             
             if (filaEditar >= 0 && numfilas == 1)
             {
-                vPanelDatos.getTFieldID().setText(String.valueOf(vPanelBarras.getTable().getValueAt(filaEditar,0)));
+                vDataPanel.getTFieldID().setText(String.valueOf(vPanelBarras.getTable().getValueAt(filaEditar,0)));
 
-                vPanelDatos.getTFieldID().setEditable(false);
+                vDataPanel.getTFieldID().setEditable(false);
                 vPanelBotones.disableButton(false);
                 vPanelBotones.getBtnOK().setEnabled(true);
             }
@@ -93,10 +93,10 @@ public class ClickEvent implements ActionListener, KeyListener
         }
         if (evento.getSource() == vPanelBotones.getBtnOK())
         {
-            name = vPanelDatos.getNombre();
-            numberID = Long.parseLong(vPanelDatos.getId());
-            city = vPanelDatos.getCiudad();
-            address = vPanelDatos.getDireccion();
+            name = vDataPanel.getName();
+            numberID = Long.parseLong(vDataPanel.getId());
+            city = vDataPanel.getCity();
+            address = vDataPanel.getAddress();
             
             vendor = new VendorModel(numberID, name, city, address);
             vPanelBarras.showAnswer(vendorModel.updateVendor(vendor));
@@ -105,17 +105,17 @@ public class ClickEvent implements ActionListener, KeyListener
             listaC = vendorModel.getAllVendors();
             vPanelBarras.mostrarDatosTable(listaC);
 
-            vPanelDatos.getTFieldID().setEditable(true);
+            vDataPanel.getTFieldID().setEditable(true);
             vPanelBotones.disableButton(true);
             vPanelBotones.getBtnOK().setEnabled(false);
 
-            vPanelDatos.cleanTextFiel();
+            vDataPanel.cleanTextFiel();
         }
         if (evento.getSource() == vPanelBotones.getBtnDelete())
         {
             try
             {
-                numberID = Long.parseLong(vPanelDatos.getId());
+                numberID = Long.parseLong(vDataPanel.getId());
 
                 int rpta =  vPanelBotones.confirmeDelete("Desea eliminar registro con number ID: " + numberID + "? ");
                 if (rpta == 0)
@@ -123,7 +123,7 @@ public class ClickEvent implements ActionListener, KeyListener
                     vPanelBarras.showAnswer(vendorModel.deleteVendor(numberID));
                 }
 
-                vPanelDatos.cleanTextFiel();
+                vDataPanel.cleanTextFiel();
                 listaC = vendorModel.getAllVendors();
                 vPanelBarras.mostrarDatosTable(listaC);
             }
@@ -138,7 +138,7 @@ public class ClickEvent implements ActionListener, KeyListener
     @Override
     public void keyPressed(KeyEvent event)
     {
-        if (event.getSource() == vPanelDatos.getTFieldID())
+        if (event.getSource() == vDataPanel.getTFieldID())
         {
             char c = event.getKeyChar();
             
@@ -147,7 +147,7 @@ public class ClickEvent implements ActionListener, KeyListener
                 event.consume();
             }
         }        
-        if (event.getSource() == vPanelDatos.getTFieldName())
+        if (event.getSource() == vDataPanel.getTFieldName())
         {
             char c = event.getKeyChar();
 

@@ -1,16 +1,15 @@
 package view.viewproveedor;
 
 import java.awt.BorderLayout;
-
-
 import javax.swing.JPanel;
+
 
 /**
  * @author  Juan U
  */
 public class PestañaProveedor extends JPanel
 {
-    private PanelDatos pDatos;
+    private DataPanel pDatos;
     private BarPanel pBarras;
     private ButtonPanel pBotones;
 
@@ -28,7 +27,7 @@ public class PestañaProveedor extends JPanel
     public void initComponents()
     {
         //--------------------------------------------------
-        pDatos = new PanelDatos();
+        pDatos = new DataPanel();
         pBarras = new BarPanel();
         pBotones = new ButtonPanel();
 
@@ -45,7 +44,7 @@ public class PestañaProveedor extends JPanel
         
     }
 
-    public PanelDatos getPanelDatos()
+    public DataPanel getDataPanel()
     {
         return pDatos;
     }

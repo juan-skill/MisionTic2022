@@ -162,7 +162,7 @@ public class ButtonPanel extends JPanel
      * The listener interface for receiving action events each of the buttons.
      * @param evento to assigns it.
      */
-    public void asignarEscuchas(ActionListener evento)
+    public void assingListenToBtn(ActionListener evento)
     {
         btnUpdate.addActionListener(evento);
         btnList.addActionListener(evento);
