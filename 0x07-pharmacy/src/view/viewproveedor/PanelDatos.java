@@ -74,6 +74,15 @@ public class PanelDatos extends JPanel
     }
 
     /**
+     * Return Name's TextField
+     * @return tfID
+     */
+    public JTextField getTFieldName()
+    {
+        return tfNombre;
+    }
+
+    /**
      * method that deletes (clears) the textfield that are written on it
      */
     public void cleanTextFiel()

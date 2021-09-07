@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -133,6 +134,28 @@ public class ButtonPanel extends JPanel
      */
     public JTextField getTfSearch() {
         return tfSearch;
+    }
+
+    /**
+     * Ask for a question to confirme deleting a record.
+     * @param message Message into MessageDialog.
+     */
+    public int confirmeDelete(String message)
+    {
+        return JOptionPane.showConfirmDialog(null, message);
+    }
+
+    /**
+     * Disable buttons.
+     * @param value boolean value to change status.
+     */
+    public void disableButton(Boolean value)
+    {
+        btnOK.setEnabled(value);
+        btnUpdate.setEnabled(value);
+        btnDelete.setEnabled(value);
+        btnInsert.setEnabled(value);
+        btnList.setEnabled(value);
     }
 
     /**

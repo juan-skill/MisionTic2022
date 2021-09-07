@@ -60,35 +60,21 @@ public class ClickEvent implements ActionListener, KeyListener
     
                 vPanelBarras.showAnswer(vendorModel.insertVendor(vendor));
                 vPanelDatos.cleanTextFiel();
+                listaC = vendorModel.getAllVendors();
+                vPanelBarras.mostrarDatosTable(listaC);
             }
             catch (NumberFormatException e)
             {
                 vPanelBarras.showAnswer("Asegurese de ingresar los datos");
             }
-
         }        
         if (evento.getSource() == vPanelBotones.getBtnList())
         {
             listaC = vendorModel.getAllVendors();
-            /*
-            vPanelBarras.mostrarDatos(listaC, "Los proveedores son: " + 
-                                              "\nIdentificador" + 
-                                              "\tNombre" +
-                                              "\tCiudad" + 
-                                              "\tDireccion\n");
-            */
             vPanelBarras.mostrarDatosTable(listaC);
         }
         if (evento.getSource() == vPanelBotones.getBtnUpdate())
         {
-            /*
-            name = vPanelDatos.getNombre();
-            numberID = Long.parseLong(vPanelDatos.getId());
-            city = vPanelDatos.getCiudad();
-            address = vPanelDatos.getDireccion();
-            
-            vendor = new VendorModel(numberID, name, city, address);
-            */
             int filaEditar = vPanelBarras.getTable().getSelectedRow();
             int numfilas = vPanelBarras.getTable().getSelectedRowCount();
             
@@ -97,18 +83,13 @@ public class ClickEvent implements ActionListener, KeyListener
                 vPanelDatos.getTFieldID().setText(String.valueOf(vPanelBarras.getTable().getValueAt(filaEditar,0)));
 
                 vPanelDatos.getTFieldID().setEditable(false);
+                vPanelBotones.disableButton(false);
                 vPanelBotones.getBtnOK().setEnabled(true);
-                vPanelBotones.getBtnUpdate().setEnabled(false);
-                vPanelBotones.getBtnDelete().setEnabled(false);
-                vPanelBotones.getBtnInsert().setEnabled(false);
-                vPanelBotones.getBtnList().setEnabled(false);
             }
             else
             {
                 vPanelBarras.showAnswer("Seleccione registro a editar");
             }
-            
-            //vPanelBarras.showAnswer(vendorModel.updateVendor(vendor));
         }
         if (evento.getSource() == vPanelBotones.getBtnOK())
         {
@@ -125,11 +106,8 @@ public class ClickEvent implements ActionListener, KeyListener
             vPanelBarras.mostrarDatosTable(listaC);
 
             vPanelDatos.getTFieldID().setEditable(true);
+            vPanelBotones.disableButton(true);
             vPanelBotones.getBtnOK().setEnabled(false);
-            vPanelBotones.getBtnUpdate().setEnabled(true);
-            vPanelBotones.getBtnDelete().setEnabled(true);
-            vPanelBotones.getBtnInsert().setEnabled(true);
-            vPanelBotones.getBtnList().setEnabled(true);
 
             vPanelDatos.cleanTextFiel();
         }
@@ -138,21 +116,47 @@ public class ClickEvent implements ActionListener, KeyListener
             try
             {
                 numberID = Long.parseLong(vPanelDatos.getId());
-                vPanelBarras.showAnswer(vendorModel.deleteVendor(numberID));
+
+                int rpta =  vPanelBotones.confirmeDelete("Desea eliminar registro con number ID: " + numberID + "? ");
+                if (rpta == 0)
+                {
+                    vPanelBarras.showAnswer(vendorModel.deleteVendor(numberID));
+                }
+
                 vPanelDatos.cleanTextFiel();
+                listaC = vendorModel.getAllVendors();
+                vPanelBarras.mostrarDatosTable(listaC);
             }
             catch (NumberFormatException e) 
             {
                 vPanelBarras.showAnswer("Seleccione registro a editar");
-                //e.printStackTrace();
             }
         }
     }
 
 
     @Override
-    public void keyPressed(KeyEvent e)
-    {}
+    public void keyPressed(KeyEvent event)
+    {
+        if (event.getSource() == vPanelDatos.getTFieldID())
+        {
+            char c = event.getKeyChar();
+            
+            if (c < '0' || c > '9')
+            {
+                event.consume();
+            }
+        }        
+        if (event.getSource() == vPanelDatos.getTFieldName())
+        {
+            char c = event.getKeyChar();
+
+            if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c != (char) KeyEvent.VK_SPACE))
+            {
+                event.consume();
+            }
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent e)
