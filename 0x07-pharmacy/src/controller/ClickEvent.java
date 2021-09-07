@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import view.viewproveedor.PanelDatos;
 import view.viewproveedor.PestañaProveedor;
 import view.viewproveedor.BarPanel;
-import view.viewproveedor.PanelBotones;
+import view.viewproveedor.ButtonPanel;
 
 import access.VendorDAO;
 import model.VendorModel;
@@ -22,18 +22,16 @@ public class ClickEvent implements ActionListener
     private PestañaProveedor pestañaProveedor;
     private VendorDAO vendorModel;
     private PanelDatos vPanelDatos;
-    private PanelBotones vPanelBotones;
+    private ButtonPanel vPanelBotones;
     private BarPanel vPanelBarras;
 
     public ClickEvent (PestañaProveedor pestañaProveedor)
     {
         this.vendorModel = new VendorDAO();
         this.pestañaProveedor = pestañaProveedor;
-        
-        this.vPanelBotones = pestañaProveedor.getPanelBotones();
         this.vPanelDatos = pestañaProveedor.getPanelDatos();
-        this.vPanelBarras = pestañaProveedor.getPanelBarras();
-        this.vPanelDatos.asignarEscuchas(this);
+        this.vPanelBotones = pestañaProveedor.getPanelBotones();        
+        this.vPanelBarras = pestañaProveedor.getPanelBarras();        
         this.vPanelBotones.asignarEscuchas(this);
     }
 
@@ -45,7 +43,7 @@ public class ClickEvent implements ActionListener
         String name = "", city = "", address = "";
         Long numberID = null;
 
-        if (evento.getSource() == vPanelDatos.getbIngresar())
+        if (evento.getSource() == vPanelBotones.getBtnInsert())
         {
             name = vPanelDatos.getNombre();
             numberID = Long.parseLong(vPanelDatos.getId());
@@ -56,7 +54,7 @@ public class ClickEvent implements ActionListener
 
             vPanelBarras.showAnswer(vendorModel.insertVendor(vendor));
         }        
-        if (evento.getSource() == vPanelBotones.getbMostrar())
+        if (evento.getSource() == vPanelBotones.getBtnList())
         {
             listaC = vendorModel.getAllVendors();
             /*
@@ -68,7 +66,7 @@ public class ClickEvent implements ActionListener
             */
             vPanelBarras.mostrarDatosTable(listaC);
         }
-        if (evento.getSource() == vPanelBotones.getbModificar())
+        if (evento.getSource() == vPanelBotones.getBtnUpdate())
         {
             name = vPanelDatos.getNombre();
             numberID = Long.parseLong(vPanelDatos.getId());
@@ -78,7 +76,7 @@ public class ClickEvent implements ActionListener
             vendor = new VendorModel(numberID, name, city, address);
             vPanelBarras.showAnswer(vendorModel.updateVendor(vendor));
         }
-        if (evento.getSource() == vPanelBotones.getbBorrar())
+        if (evento.getSource() == vPanelBotones.getBtnDelete())
         {
             numberID = Long.parseLong(vPanelDatos.getId());
             vPanelBarras.showAnswer(vendorModel.deleteVendor(numberID));

@@ -12,7 +12,7 @@ public class PestañaProveedor extends JPanel
 {
     private PanelDatos pDatos;
     private BarPanel pBarras;
-    private PanelBotones pBotones;
+    private ButtonPanel pBotones;
 
     /**
      * Constructor
@@ -30,7 +30,7 @@ public class PestañaProveedor extends JPanel
         //--------------------------------------------------
         pDatos = new PanelDatos();
         pBarras = new BarPanel();
-        pBotones = new PanelBotones();
+        pBotones = new ButtonPanel();
 
         BorderLayout blayout = new BorderLayout();
 
@@ -55,7 +55,7 @@ public class PestañaProveedor extends JPanel
         return pBarras;
     }
 
-    public PanelBotones getPanelBotones()
+    public ButtonPanel getPanelBotones()
     {
         return pBotones;
     }
