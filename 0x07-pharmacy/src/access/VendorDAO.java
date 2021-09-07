@@ -57,6 +57,15 @@ public class VendorDAO {
      */
     private static final String deleteAVendorQuery = "DELETE FROM proveedor " + 
                                                      "WHERE pv_codigo=?;";
+
+    /**
+     * Constant to filter a vendor user by name attribute (query sql)
+     */
+    private static final String filterByNameQuery = "SELECT " +
+                                                    "pv_codigo, pv_nombre, pv_ciudad, pv_direccion " +
+                                                    "FROM proveedor " +
+                                                    "WHERE pv_nombre LIKE ?;";
+
     // -----------------------------------------------------------------
     // Atrributes
     // -----------------------------------------------------------------
@@ -113,6 +122,37 @@ public class VendorDAO {
         return vendors;
     }
 
+    /**
+     * Retrieve all of the vendors in the Vendor table database by name filter.
+     * @param nameVendor attribute to find the vendor
+     * @return List of VendorModels
+     */
+    public List<VendorModel> getFilteredVendor(String nameVendor)
+    {
+        List<VendorModel> vendors = new ArrayList<>();
+
+        try
+        {
+            if (conn == null)
+                conn = ConnectionDB.getConnection();
+
+            PreparedStatement statement = conn.prepareStatement(filterByNameQuery);
+            statement.setString(1, "%" + nameVendor + "%");
+            ResultSet result = statement.executeQuery();
+
+            while (result.next())
+            {
+                VendorModel vendor = new VendorModel(result.getLong(1), result.getString(2), result.getString(3), result.getString(4));
+                vendors.add(vendor);
+            }
+        }
+        catch (SQLException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Código : " + ex.getErrorCode() + "\nError :" + ex.getMessage());
+        }
+
+        return vendors;
+    }
 
     /**
      * Retrieve a vendor in the Vendor table database by numberID attribute

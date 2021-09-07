@@ -4,13 +4,14 @@ import java.util.List;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import view.viewproveedor.PanelDatos;
 import view.viewproveedor.PestañaProveedor;
 import view.viewproveedor.BarPanel;
 import view.viewproveedor.ButtonPanel;
 
-import java.text.ParseException;
+
 
 import access.VendorDAO;
 import model.VendorModel;
@@ -19,7 +20,7 @@ import model.VendorModel;
 /**
  * 
  */
-public class ClickEvent implements ActionListener
+public class ClickEvent implements ActionListener, KeyListener
 {
     private PestañaProveedor pestañaProveedor;
     private VendorDAO vendorModel;
@@ -35,6 +36,7 @@ public class ClickEvent implements ActionListener
         this.vPanelBotones = pestañaProveedor.getPanelBotones();        
         this.vPanelBarras = pestañaProveedor.getPanelBarras();        
         this.vPanelBotones.asignarEscuchas(this);
+        this.vPanelBotones.assingListenToTField(this);
     }
 
     @Override
@@ -144,8 +146,30 @@ public class ClickEvent implements ActionListener
                 vPanelBarras.showAnswer("Seleccione registro a editar");
                 //e.printStackTrace();
             }
-            
-            
         }
     }
+
+
+    @Override
+    public void keyPressed(KeyEvent e)
+    {}
+
+    @Override
+    public void keyTyped(KeyEvent e)
+    {}
+
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+        List<VendorModel> listaC = null;
+
+        if (e.getSource()== vPanelBotones.getTfSearch())
+        {
+            String name = vPanelBotones.getTfSearch().getText();
+
+            listaC = vendorModel.getFilteredVendor(name);
+            vPanelBarras.mostrarDatosTable(listaC);
+        }
+    }
+
 }

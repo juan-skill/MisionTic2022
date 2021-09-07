@@ -5,6 +5,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+
 
 /**
  * Class that represents the buttons panel to operate CRUD
@@ -145,5 +147,14 @@ public class ButtonPanel extends JPanel
         btnInsert.addActionListener(evento);
         btnOK.addActionListener(evento);
     }
+
+    /**
+     * The listener interface for receiving action events of the textfield component.
+     * @param event  which indicates that a keystroke occurred in the TextFiel.
+     */
+    public void assingListenToTField(KeyListener event)
+    {
+        tfSearch.addKeyListener(event);
+    }    
 
 }
