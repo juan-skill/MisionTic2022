@@ -116,4 +116,13 @@ public class BarPanel extends JPanel
     {
         JOptionPane.showMessageDialog(null, message);
     }
+
+    /**
+     * Return table data.
+     * @return table.
+     */
+    public JTable getTable()
+    {
+        return table;
+    }
 }

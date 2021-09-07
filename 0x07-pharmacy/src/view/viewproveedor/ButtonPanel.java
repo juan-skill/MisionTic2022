@@ -71,6 +71,7 @@ public class ButtonPanel extends JPanel
         btnUpdate = new JButton("UPDATE");        
         btnInsert = new JButton("INSERT");
         btnOK = new JButton("OK");
+        btnOK.setEnabled(false);
 
         tfSearch = new JTextField(10);
 

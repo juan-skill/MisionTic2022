@@ -63,4 +63,25 @@ public class PanelDatos extends JPanel
     {
         return tfDireccion.getText().trim();
     }
+
+    /**
+     * Return ID's TextField
+     * @return tfID
+     */
+    public JTextField getTFieldID()
+    {
+        return tfId;
+    }
+
+    /**
+     * method that deletes (clears) the textfield that are written on it
+     */
+    public void cleanTextFiel()
+    {
+        tfId.setText("");
+        tfId.setEditable(true);
+        tfNombre.setText("");
+        tfCiudad.setText("");
+        tfDireccion.setText("");
+    }
 }
