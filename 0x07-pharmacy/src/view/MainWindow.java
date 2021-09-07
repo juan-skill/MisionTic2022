@@ -1,32 +1,57 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import view.viewproveedor.VendorTab;
-
 import controller.ClickEvent;
 
 /**
- *
- * @author casierrav
+ * Class that represents the main window Frame
  */
-public class MainWindow extends JFrame {
-    
-    private JTabbedPane pestañas;
-    private VendorTab pProveedor;
+public class MainWindow extends JFrame
+{
+    // -----------------------------------------------------------------
+    // Atrributes
+    // -----------------------------------------------------------------
 
-    public MainWindow(){
+    /**
+     * Main container of the tabs.
+     */
+    private JTabbedPane tabs;
+
+    /**
+     * VendorTab panel.
+     */    
+    private VendorTab vendorTab;
+
+    /**
+     * ContanerPanel of Frame.
+     */    
+    private Container containerFrame;    
+
+    // -----------------------------------------------------------------
+    // Constructor
+    // -----------------------------------------------------------------
+
+    /**
+     * MainWindow class constructor method
+     */
+    public MainWindow()
+    {
         initComponents();
     }
     
+    // -----------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------    
+
+    /**
+     * Sets main Frame.
+     */    
     private void initComponents(){
         setTitle("Pharmacy - MVC");
         
@@ -36,26 +61,17 @@ public class MainWindow extends JFrame {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        containerFrame = getContentPane();
         
-        this.pProveedor = new VendorTab();
-        /*PanelT2 panelT2 = new PanelT2();
-        PanelT3 panelT3 = new PanelT3();
-        */
-        pestañas = new JTabbedPane();
+        this.vendorTab = new VendorTab();
+        tabs = new JTabbedPane();
+        tabs.add(vendorTab, "Proveedor");
 
-        pestañas.add(pProveedor, "Proveedor");
-        /*pestañas.add(panelT2, "pestaña2");
-        pestañas.add(panelT3, "pestaña3");
-        */
+        
+        containerFrame.add(tabs);
 
-        // add to JFrame
-        add(pestañas);
-
-        new ClickEvent(pProveedor);
-
-        //ResultsPanel resultsPanel = new ResultsPanel();
-        //setContentPane(resultsPanel);
-        //add(new ControlsPanel(resultsPanel));
+        new ClickEvent(vendorTab);
         
         //setSize(1024, 720);
         pack();
@@ -70,11 +86,11 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     * retornar el panel de la pestaña Proveedor
-     * @return
+     * Return vendor Tab 
+     * @return tab panel 1.
      */
     public VendorTab getVendorTab()
     {
-        return pProveedor;
+        return vendorTab;
     }
 }
