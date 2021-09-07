@@ -57,8 +57,8 @@ public class MainWindow extends JFrame {
         //setContentPane(resultsPanel);
         //add(new ControlsPanel(resultsPanel));
         
-        setSize(1024, 720);
-        //pack();
+        //setSize(1024, 720);
+        pack();
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize  = getSize();

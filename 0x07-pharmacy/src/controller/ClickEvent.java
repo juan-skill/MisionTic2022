@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import view.viewproveedor.PanelDatos;
 import view.viewproveedor.PestañaProveedor;
-import view.viewproveedor.PanelBarras;
+import view.viewproveedor.BarPanel;
 import view.viewproveedor.PanelBotones;
 
 import access.VendorDAO;
@@ -23,7 +23,7 @@ public class ClickEvent implements ActionListener
     private VendorDAO vendorModel;
     private PanelDatos vPanelDatos;
     private PanelBotones vPanelBotones;
-    private PanelBarras vPanelBarras;
+    private BarPanel vPanelBarras;
 
     public ClickEvent (PestañaProveedor pestañaProveedor)
     {
@@ -54,16 +54,19 @@ public class ClickEvent implements ActionListener
             
             vendor = new VendorModel(numberID, name, city, address);
 
-            vPanelBarras.mostarArea(vendorModel.insertVendor(vendor));
+            vPanelBarras.showAnswer(vendorModel.insertVendor(vendor));
         }        
         if (evento.getSource() == vPanelBotones.getbMostrar())
         {
             listaC = vendorModel.getAllVendors();
+            /*
             vPanelBarras.mostrarDatos(listaC, "Los proveedores son: " + 
                                               "\nIdentificador" + 
                                               "\tNombre" +
                                               "\tCiudad" + 
                                               "\tDireccion\n");
+            */
+            vPanelBarras.mostrarDatosTable(listaC);
         }
         if (evento.getSource() == vPanelBotones.getbModificar())
         {
@@ -73,12 +76,12 @@ public class ClickEvent implements ActionListener
             address = vPanelDatos.getDireccion();
             
             vendor = new VendorModel(numberID, name, city, address);
-            vPanelBarras.mostarArea(vendorModel.updateVendor(vendor));
+            vPanelBarras.showAnswer(vendorModel.updateVendor(vendor));
         }
         if (evento.getSource() == vPanelBotones.getbBorrar())
         {
             numberID = Long.parseLong(vPanelDatos.getId());
-            vPanelBarras.mostarArea(vendorModel.deleteVendor(numberID));
+            vPanelBarras.showAnswer(vendorModel.deleteVendor(numberID));
         }
     }
 }

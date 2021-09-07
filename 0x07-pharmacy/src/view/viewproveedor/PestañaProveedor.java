@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class PestañaProveedor extends JPanel
 {
     private PanelDatos pDatos;
-    private PanelBarras pBarras;
+    private BarPanel pBarras;
     private PanelBotones pBotones;
 
     /**
@@ -29,7 +29,7 @@ public class PestañaProveedor extends JPanel
     {
         //--------------------------------------------------
         pDatos = new PanelDatos();
-        pBarras = new PanelBarras();
+        pBarras = new BarPanel();
         pBotones = new PanelBotones();
 
         BorderLayout blayout = new BorderLayout();
@@ -50,7 +50,7 @@ public class PestañaProveedor extends JPanel
         return pDatos;
     }
 
-    public PanelBarras getPanelBarras()
+    public BarPanel getPanelBarras()
     {
         return pBarras;
     }
