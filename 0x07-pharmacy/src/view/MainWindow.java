@@ -3,12 +3,14 @@ package view;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import javax.swing.UIManager;
-
-import access.VendorDAO;
-
+import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import access.VendorDAO;
 import view.viewproveedor.VendorTab;
 import controller.VendorController;
 
@@ -34,7 +36,12 @@ public class MainWindow extends JFrame
     /**
      * ContanerPanel of Frame.
      */    
-    private Container containerFrame;    
+    private Container containerFrame;
+
+    /**
+     * Label to display Window title.
+     */
+    private JLabel jTitle;   
 
     // -----------------------------------------------------------------
     // Constructor
@@ -67,16 +74,24 @@ public class MainWindow extends JFrame
         }
 
         containerFrame = getContentPane();
+
+        jTitle = new JLabel("DrogeriaTic", JLabel.CENTER);
+        jTitle.setFont(new Font("TimesRoman", Font.BOLD+Font.ITALIC, 25));
+        jTitle.setOpaque(true);
+        jTitle.setBackground(Color.WHITE);
+        jTitle.setForeground(Color.BLUE);
         
         this.vendorTab = new VendorTab();
         tabs = new JTabbedPane();
-        tabs.add(vendorTab, "Proveedor");
-
+        tabs.add(vendorTab, "Vendor");
         
-        containerFrame.add(tabs);
-        
-        //setSize(1024, 720);
-        pack();
+        containerFrame.setLayout(new BorderLayout());
+        containerFrame.add(jTitle, BorderLayout.NORTH);
+        containerFrame.add(tabs, BorderLayout.CENTER);
+       
+        setSize(1080, 600);
+        //pack();
+        setResizable(false);
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize  = getSize();

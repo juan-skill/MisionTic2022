@@ -3,7 +3,6 @@ package view.viewproveedor;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-
 /**
  * Class that represents the tab contenten pane number 1 (Vendor Tab)
  */
