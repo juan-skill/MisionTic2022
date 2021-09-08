@@ -4,10 +4,13 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
+
+import access.VendorDAO;
+
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import view.viewproveedor.VendorTab;
-import controller.ClickEvent;
+import controller.VendorController;
 
 /**
  * Class that represents the main window Frame
@@ -43,6 +46,7 @@ public class MainWindow extends JFrame
     public MainWindow()
     {
         initComponents();
+        startApplication();
     }
     
     // -----------------------------------------------------------------
@@ -70,8 +74,6 @@ public class MainWindow extends JFrame
 
         
         containerFrame.add(tabs);
-
-        new ClickEvent(vendorTab);
         
         //setSize(1024, 720);
         pack();
@@ -83,6 +85,14 @@ public class MainWindow extends JFrame
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    /**
+     * Create instances of controller
+     */
+    private void startApplication()
+    {
+        new VendorController(this, new VendorDAO());
     }
 
     /**
