@@ -74,7 +74,7 @@ public abstract class ModelUser
     }
 
     /**
-     * Return a String object representing a vendor instance
+     * Return a String object representing a user instance
      */
     public String toString()
     {

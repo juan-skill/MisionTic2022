@@ -32,6 +32,10 @@ public class VendorModel extends ModelUser
         this.city = city;
     }
 
+    // -----------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------
+
     /**
      * Return the city of the vendor user.
      * @return City of the vendor user.
