@@ -135,19 +135,26 @@ public class VendorController implements ActionListener, KeyListener
             numberID = Long.parseLong(vDataPanel.getId());
             city = vDataPanel.getCity();
             address = vDataPanel.getAddress();
-            
-            vendor = new VendorModel(numberID, name, city, address);
-            vTablePanel.showAnswer(model.updateVendor(vendor));
-            vTablePanel.cleanRows();
 
-            listaC = model.getAllVendors();
-            vTablePanel.mostrarDatosTable(listaC);
-
-            vDataPanel.getTFieldID().setEditable(true);
-            vButtonPanel.disableButton(true);
-            vButtonPanel.getBtnOK().setEnabled(false);
-
-            vDataPanel.cleanTextFiel();
+            if (name.compareTo("") != 0)
+            {
+                vendor = new VendorModel(numberID, name, city, address);
+                vTablePanel.showAnswer(model.updateVendor(vendor));
+                vTablePanel.cleanRows();
+    
+                listaC = model.getAllVendors();
+                vTablePanel.mostrarDatosTable(listaC);
+    
+                vDataPanel.getTFieldID().setEditable(true);
+                vButtonPanel.disableButton(true);
+                vButtonPanel.getBtnOK().setEnabled(false);
+    
+                vDataPanel.cleanTextFiel();
+            }
+            else
+            {
+                vTablePanel.showAnswer("El nombre es un campo obligatorio");
+            }
         }
         if (event.getSource() == vButtonPanel.getBtnDelete())
         {
