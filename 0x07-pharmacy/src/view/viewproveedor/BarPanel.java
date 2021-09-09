@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.Font;
 
-import model.VendorModel;
+import model.users.VendorModel;
 
 import java.util.List;
 

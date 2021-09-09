@@ -2,7 +2,7 @@ package controller;
 
 import access.VendorDAO;
 import java.util.List;
-import model.VendorModel;
+import model.users.VendorModel;
 
 /**
  *

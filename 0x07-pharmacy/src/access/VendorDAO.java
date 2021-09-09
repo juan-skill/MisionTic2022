@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.VendorModel;
+import model.users.VendorModel;
 import utils.ConnectionDB;
 
 

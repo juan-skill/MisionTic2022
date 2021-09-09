@@ -12,7 +12,7 @@ import view.viewproveedor.BarPanel;
 import view.viewproveedor.ButtonPanel;
 import view.MainWindow;
 import access.VendorDAO;
-import model.VendorModel;
+import model.users.VendorModel;
 
 
 /**

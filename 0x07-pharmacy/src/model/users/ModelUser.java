@@ -1,51 +1,44 @@
-package model;
+package model.users;
 
 /**
- * Class that represents the user who will supply products 
- * to be distributed in the pharmacy.
+ * Class that represents an users abstraction of the application
  */
-public class VendorModel
+public abstract class ModelUser
 {
     // -----------------------------------------------------------------
     // Atrributes
     // -----------------------------------------------------------------
 
     /**
-     * Vendor user identification code.
+     * User identification code.
      */
-    private Long numberID = null;
+    protected Long numberID = null;
     
     /**
-     * Vendor user name.
+     * User name.
      */    
-    private String name = "";
+    protected String name = "";
     
     /**
-     * Vendor user city.
-     */    
-    private String city = "";
-
-    /**
-     * Vendor user address.
+     * User address.
      */
-    private String address = "";
+    protected String address = "";
 
     // -----------------------------------------------------------------
     // Constructor
     // -----------------------------------------------------------------    
 
     /**
-     * Vendor user class constructor method
+     * Vendor userModel class constructor method
      * @param numberID
      * @param name
      * @param city
      * @param address
      */
-    public VendorModel(Long numberID, String name, String city, String address)
+    public ModelUser(Long numberID, String name, String address)
     {
         this.numberID = numberID;
         this.name = name;
-        this.city = city;
         this.address = address;
     }
 
@@ -54,8 +47,8 @@ public class VendorModel
     // -----------------------------------------------------------------
 
     /**
-     * Return the identification code of the Vendor user.
-     * @return NumberID of the vendor user.
+     * Return the identification code of the user.
+     * @return NumberID of the user.
      */
     public Long getNumberID()
     {
@@ -63,8 +56,8 @@ public class VendorModel
     }
 
     /**
-     * Return the name of the vendor user.
-     * @return Name of the vendor user.
+     * Return the name of the user.
+     * @return Name of the user.
      */
     public String getName()
     {
@@ -72,17 +65,8 @@ public class VendorModel
     }
 
     /**
-     * Return the city of the vendor user.
-     * @return City of the vendor user.
-     */
-    public String getCity()
-    {
-        return city;
-    }
-
-    /**
-     * Return the address of the vendor user.
-     * @return Address of the vendor user.
+     * Return the address of the user.
+     * @return Address of the user.
      */
     public String getAddress()
     {
@@ -96,7 +80,6 @@ public class VendorModel
     {
         return numberID + "\t" + 
                name + "\t" +
-               city + "\t" +
                address + "\n";
     }
 }
