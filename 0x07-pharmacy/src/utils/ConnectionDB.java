@@ -36,6 +36,13 @@ public class ConnectionDB
     // -----------------------------------------------------------------
 
     /**
+     *  Connection object's database is able to provide information describing its tables, 
+     *  its supported SQL grammar, its stored procedures, the capabilities of this connection, 
+     *  and so on. .
+     */    
+    private static Connection conn = null;
+
+    /**
      * Hostname of the mysql server.
      */
     private static String host = "";
@@ -76,7 +83,6 @@ public class ConnectionDB
     public static Connection getConnection()
     {
         JSONParser parser = new JSONParser();
-        Connection conn = null;        
         String credentials_path = "";
         JSONObject jsonObject = null;
         
@@ -105,7 +111,26 @@ public class ConnectionDB
         {
             ex.printStackTrace();
         }
-        
+       
         return conn;
+    }
+
+    /**
+     * Is the way that the application tells the DBConnection 
+     * class "I have finished".
+     */
+    public static void closeConnection()
+    {
+        if (conn != null)
+        {
+            try
+            {
+                conn.close();
+            }
+            catch (SQLException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
     }
 }
