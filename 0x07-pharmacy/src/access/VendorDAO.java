@@ -113,6 +113,9 @@ public class VendorDAO {
                 VendorModel vendor = new VendorModel(result.getLong(1), result.getString(2), result.getString(3), result.getString(4));                
                 vendors.add(vendor);
             }
+
+            result.close();
+            statement.close();
         }
         catch (SQLException ex)
         {
@@ -145,6 +148,9 @@ public class VendorDAO {
                 VendorModel vendor = new VendorModel(result.getLong(1), result.getString(2), result.getString(3), result.getString(4));
                 vendors.add(vendor);
             }
+
+            result.close();
+            statement.close();
         }
         catch (SQLException ex)
         {
@@ -178,6 +184,9 @@ public class VendorDAO {
                 vendor = new VendorModel(numberID, result.getString(2), result.getString(3), result.getString(4));
                 break;
             }
+
+            result.close();
+            statement.close();
         }
         catch (SQLException ex)
         {
@@ -217,6 +226,8 @@ public class VendorDAO {
                 message ="se ingresó cliente" + vendor.getName() + " con exito!!";
             }
 
+            statement.close();
+
         } catch (SQLException ex) {
             //JOptionPane.showMessageDialog(null, "Código : " + ex.getErrorCode()
             //                          + "\nError :" + ex.getMessage());
@@ -253,6 +264,8 @@ public class VendorDAO {
                 //JOptionPane.showMessageDialog(null, "El registro fue actualizado exitosamente !");
                 message = "El registro fue actualizado exitosamente !";
             }
+
+            statement.close();
         } 
         catch (SQLException ex)
         {
@@ -287,6 +300,8 @@ public class VendorDAO {
                 //JOptionPane.showMessageDialog(null, "El registro fue borrado exitosamente !");
                 message = "El registro fue actualizado exitosamente !";
             }
+
+            statement.close();
         } 
         catch (SQLException ex)
         {
