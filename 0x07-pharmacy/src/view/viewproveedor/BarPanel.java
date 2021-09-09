@@ -5,8 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 
 import model.VendorModel;
 
@@ -62,13 +62,26 @@ public class BarPanel extends JPanel
         tableModel.addColumn("Name");
         tableModel.addColumn("City");
         tableModel.addColumn("Address");
-        table  = new JTable(tableModel);      
+        table  = new JTable(tableModel);
+        
+        table.setRowHeight(20);
+        table.getColumnModel().getColumn(0).setPreferredWidth(10);
+        table.getColumnModel().getColumn(1).setPreferredWidth(40);
+        table.getColumnModel().getColumn(2).setPreferredWidth(40);
+        table.getColumnModel().getColumn(3).setPreferredWidth(300);
+
+        table.setDefaultEditor(Object.class, null);
+
+        table.getTableHeader().setBackground(new Color(192, 192, 192));
+        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setFont(new Font("Tahome", Font.BOLD, 15));
 
         scrollPane = new JScrollPane(table);
 
-        BorderLayout blayout = new BorderLayout();
-        setLayout(blayout);
-        add(scrollPane, BorderLayout.CENTER);        
+        setLayout(null);
+
+        scrollPane.setBounds(20, 20, 1030, 300);
+        add(scrollPane);
     }
 
     /**
