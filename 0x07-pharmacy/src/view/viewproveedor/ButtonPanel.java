@@ -2,7 +2,12 @@ package view.viewproveedor;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.Icon;
+import java.awt.Image;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -14,6 +19,30 @@ import javax.swing.JOptionPane;
  */
 public class ButtonPanel extends JPanel
 {
+    // -----------------------------------------------------------------
+    // Constants
+    // -----------------------------------------------------------------
+
+    /**
+     * Constant to locate list image.
+     */
+    private static final String iconPathbtnlist = "../../images/btnlist.png";
+
+    /**
+     * Constant to locate delete image.
+     */
+    private static final String iconPathbtndelete = "../../images/btndelete.png";
+
+    /**
+     * Constant to locate delete image.
+     */
+    private static final String iconPathbtnupdate = "../../images/btnupdate.png";
+    
+    /**
+     * Constant to locate delete image.
+     */
+    private static final String iconPathbtninsert = "../../images/btninsert.png";    
+
     // -----------------------------------------------------------------
     // Atrributes
     // -----------------------------------------------------------------
@@ -45,8 +74,48 @@ public class ButtonPanel extends JPanel
 
     /**
      * textfield to write a search.
+     */
+    private JTextField tfSearch;
+    
+    /**
+     * Image to list.
+     */
+    private Image imgBtnList;
+
+    /**
+     * Icon to list.
      */    
-    private JTextField tfSearch;    
+    private Icon iconBtnList;
+
+    /**
+     * Image to updata.
+     */    
+    private Image imgBtnUpdate;
+
+    /**
+     * Icon to  update.
+     */    
+    private Icon iconBtnUpdate;
+
+    /**
+     * Image to delete.
+     */    
+    private Image imgBtnDelete;
+
+    /**
+     * Icon to  delete.
+     */    
+    private Icon iconBtnDelete;    
+
+    /**
+     * Image to insert.
+     */    
+    private Image imgBtnInsert;
+
+    /**
+     * Icon to insert.
+     */    
+    private Icon iconBtnInsert;
 
     // -----------------------------------------------------------------
     // Constructor
@@ -69,10 +138,30 @@ public class ButtonPanel extends JPanel
      */    
     public void initComponents()
     {
-        btnList = new JButton("LIST");
-        btnDelete = new JButton("DELETE");
-        btnUpdate = new JButton("UPDATE");        
-        btnInsert = new JButton("INSERT");
+        imgBtnList = new ImageIcon(getClass().getResource(iconPathbtnlist)).getImage();
+        iconBtnList = new ImageIcon(imgBtnList.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));        
+        btnList = new JButton("LIST", iconBtnList);
+        btnList.setVerticalTextPosition(JLabel.BOTTOM);
+        btnList.setHorizontalAlignment(JLabel.CENTER);
+
+        imgBtnDelete = new ImageIcon(getClass().getResource(iconPathbtndelete)).getImage();
+        iconBtnDelete = new ImageIcon(imgBtnDelete.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));
+        btnDelete = new JButton("DELETE", iconBtnDelete);
+        btnDelete.setVerticalTextPosition(JLabel.BOTTOM);
+        btnDelete.setHorizontalAlignment(JLabel.CENTER);
+
+        imgBtnUpdate = new ImageIcon(getClass().getResource(iconPathbtnupdate)).getImage();
+        iconBtnUpdate = new ImageIcon(imgBtnUpdate.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));
+        btnUpdate = new JButton("UPDATE", iconBtnUpdate);
+        btnUpdate.setVerticalTextPosition(JLabel.BOTTOM);
+        btnUpdate.setHorizontalAlignment(JLabel.CENTER);
+        
+        imgBtnInsert = new ImageIcon(getClass().getResource(iconPathbtninsert)).getImage();
+        iconBtnInsert = new ImageIcon(imgBtnInsert.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));        
+        btnInsert = new JButton("INSERT", iconBtnInsert);
+        btnInsert.setVerticalTextPosition(JLabel.BOTTOM);
+        btnInsert.setHorizontalAlignment(JLabel.CENTER);
+
         btnOK = new JButton("OK");
         btnOK.setEnabled(false);
 
