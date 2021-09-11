@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import javax.sql.DataSource;
 
 import java.util.ArrayList;
 import main.access.abstractionsDAO.iClientDAO;
@@ -253,7 +254,7 @@ public class ClientDAO implements iClientDAO
 
             if (rowsDeleted > 0)
             {
-                message = "El registro fue actualizado exitosamente !";
+                message = "El registro fue eliminado exitosamente !";
             }
 
             statement.close();
@@ -264,5 +265,10 @@ public class ClientDAO implements iClientDAO
         }
 
         return message;
+    }
+
+    public void setConnection(DataSource data) throws SQLException
+    {
+        this.conn = data.getConnection();
     }
 }

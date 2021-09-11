@@ -53,6 +53,15 @@ public class ClientModel extends ModelUser
     }
 
     /**
+     * Set the phone number of the client user.
+     * @param Phone number to be updated.
+     */
+    public void setPhoneNumber(String phoneNumber)
+    {
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
      * Return the neighborhood of the client user.
      * @return Neighborhood of the client user.
      */
