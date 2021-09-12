@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.List;
 
 import java.util.ArrayList;
@@ -26,46 +27,46 @@ public class ClientDAO implements iClientDAO
     /**
      * Constant to list all of the client users of the client table (query sql)
      */
-    private static final String GETALLQUERY = "SELECT " +
-                                              "cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio " + 
-                                              "FROM cliente;";
+    private static final String GETALLQUERY = """
+                                              SELECT 
+                                              cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio
+                                              FROM cliente;
+                                              """;
 
     /**
      * Constant to search a client user by numberID (query sql)
      */
-    private static final String GETONEQUERY = "SELECT " + 
-                                              "cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio " + 
-                                              "FROM cliente WHERE cl_id =?;";
+    private static final String GETONEQUERY = """
+                                              SELECT
+                                              cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio
+                                              FROM cliente WHERE cl_id =?;
+                                              """;
     
     /**
      * Constant to insert a client user (query sql)
      */
-    private static final String INSERTQUERY = "INSERT INTO cliente " + 
-                                              "(cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio) " + 
-                                              "VALUES (?, ?, ?, ?, ?);";
+    private static final String INSERTQUERY = """
+                                              INSERT INTO cliente
+                                              (cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio)
+                                              VALUES (?, ?, ?, ?, ?);
+                                              """;
     
     /**
      * Constant to update a client user (query sql)
      */                                                     
-    private static final String UDPATEQUERY = "UPDATE cliente " +
-                                              "SET cl_nombre =?, cl_direccion =?, cl_telefono =?, cl_barrio =? " + 
-                                              "WHERE cl_id =?;";
+    private static final String UPDATEQUERY = """
+                                              UPDATE cliente
+                                              SET cl_nombre =?, cl_direccion =?, cl_telefono =?, cl_barrio =?
+                                              WHERE cl_id =?;
+                                              """;
     
     /**
      * Constant to delete a client user (query sql)
      */
-    private static final String DELETEQUERY = "DELETE FROM cliente " + 
-                                              "WHERE cl_id = ?;";
-
-    /**
-     * Constant to filter a client user by name attribute (query sql)
-     */
-    /*
-    private static final String FILTERBYNAMEQUERY = "SELECT " +
-                                                    "cl_id, cl_nombre, cl_ciudad, cl_direccion " +
-                                                    "FROM cliente " +
-                                                    "WHERE cl_nombre LIKE ?;";
-    */
+    private static final String DELETEQUERY = """
+                                              DELETE FROM cliente
+                                              WHERE cl_id = ?;
+                                              """;
 
     // -----------------------------------------------------------------
     // Atrributes
@@ -243,9 +244,21 @@ public class ClientDAO implements iClientDAO
             statement = conn.prepareStatement(INSERTQUERY);
             statement.setLong(1, client.getNumberID());
             statement.setString(2, client.getName());
-            statement.setString(3, client.getAddress());
-            statement.setString(4, client.getPhoneNumber());
-            statement.setString(5, client.getNeighborhood());
+            
+            if (client.getAddress() != null)
+                statement.setString(3, client.getAddress());
+            else
+                statement.setNull(3, Types.VARCHAR);
+
+            if (client.getPhoneNumber() != null)                
+                statement.setString(4, client.getPhoneNumber());
+            else
+                statement.setNull(4, Types.VARCHAR);                
+                        
+            if (client.getNeighborhood() != null)
+                statement.setString(5, client.getNeighborhood());
+            else
+                statement.setNull(5, Types.VARCHAR);
 
             rowsInserted = statement.executeUpdate();
             if (rowsInserted == 0)
@@ -284,7 +297,7 @@ public class ClientDAO implements iClientDAO
        
         try
         {
-            statement = conn.prepareStatement(UDPATEQUERY);            
+            statement = conn.prepareStatement(UPDATEQUERY);            
             statement.setString(1, client.getName());
             statement.setString(2, client.getAddress());
             statement.setString(3, client.getPhoneNumber());
@@ -366,5 +379,5 @@ public class ClientDAO implements iClientDAO
     public void setConnection(Connection connection) throws SQLException
     {
         this.conn = connection;
-    }
+    }  
 }
