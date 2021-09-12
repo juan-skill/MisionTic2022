@@ -32,7 +32,6 @@ public abstract class ModelUser
      * Vendor userModel class constructor method
      * @param numberID
      * @param name
-     * @param city
      * @param address
      */
     public ModelUser(Long numberID, String name, String address)
