@@ -41,13 +41,13 @@ CREATE TABLE cliente (
 
 
 INSERT INTO cliente (cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio) VALUES
-(12333451, 'Julia María Castro', '527 Cantebury Drive', 6465624577, 'Isla del Príncipe Eduardo'),
-(1112876321, 'Bernardo Gutierrez Martinez', '137 Roane Hollow', 11030000, 'Saskatchewan'),
-(29876543, 'Juan Esteban Mora', '602 Joes Lake', 2329662720, 'Quebec'),
-(33876458, 'Lina Milena Ocampo', '183 Williams River', 3335117350, 'Terranova y Labrador'),
-(22345765, 'Josefina Lopez Murillo', '624 Hawks Farm', 6462558814, 'Columbia Británica'),
-(98765678, 'Samuel Siachoque Trochez', '374 McDonald Drive', 3338443001, 'Nueva Escocia'),
-(54322123, 'Carolina Aguado Velez', '365 Liberty Place', 2428664135, 'Columbia Británica')
+(12333451, 'Julia María Castro', '527 Cantebury Drive', '6465624577', 'Isla del Príncipe Eduardo'),
+(1112876321, 'Bernardo Gutierrez Martinez', '137 Roane Hollow', '11030000', 'Saskatchewan'),
+(29876543, 'Juan Esteban Mora', '602 Joes Lake', '2329662720', 'Quebec'),
+(33876458, 'Lina Milena Ocampo', '183 Williams River', '3335117350', 'Terranova y Labrador'),
+(22345765, 'Josefina Lopez Murillo', '624 Hawks Farm', '6462558814', 'Columbia Británica'),
+(98765678, 'Samuel Siachoque Trochez', '374 McDonald Drive', '3338443001', 'Nueva Escocia'),
+(54322123, 'Carolina Aguado Velez', '365 Liberty Place', '2428664135', 'Columbia Británica')
 ;
 
 DROP TABLE IF EXISTS producto;
