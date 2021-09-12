@@ -12,9 +12,11 @@ import org.junit.jupiter.api.TestInfo;
 import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import main.model.users.ClientModel;
+import main.access.DAOException.DAOException;
 import main.access.concretDAO.ClientDAO;
 
 import java.sql.Connection;
@@ -29,10 +31,6 @@ import javax.sql.DataSource;
 @RunWith(MockitoJUnitRunner.class)
 public class ClientDAOTest
 {
-    private final static String MSGUPDATE = "El registro fue actualizado exitosamente !";
-
-    private final static String MSGDELETE = "El registro fue eliminado exitosamente !";
-
     @Mock
     private DataSource mockDataSource;
 
@@ -48,102 +46,163 @@ public class ClientDAOTest
     @Mock
     private Statement mockStatement;
 
-    private ClientModel sampleClient = null;
-
     private ClientDAO daoClient = null;
 
     @Before
     public void setUp() throws Exception 
     {
-        assertNotNull(mockDataSource);
-        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
-        when(mockPreparedStatement.executeQuery(any(String.class))).thenReturn(mockResultSet);
         when(mockDataSource.getConnection()).thenReturn(mockConnection);
+        daoClient = new ClientDAO();
+        daoClient.setConnection(mockDataSource.getConnection());
 
-        long code = 3345;
-        sampleClient = new ClientModel(code, 
-                            "Bayer", 
-                            "697 Metz Road Fostertown, MN 81279-4569", 
-                            "6465624577", 
-                            "Isla del Príncipe Eduardo");
+    }
 
+    @Test(expected = DAOException.class)
+    public void testNullCreateClient() throws DAOException, SQLException
+    {   
+        ClientModel clientModel = null;
 
-        when(mockResultSet.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
-
+        when(mockConnection.prepareStatement(any(String.class))).thenThrow(SQLException.class);
         
-        when(mockResultSet.getLong(1)).thenReturn(code);
+        daoClient.insertItem(clientModel);
+    }
 
-        when(mockResultSet.getString(2)).thenReturn(sampleClient.getName());
-        when(mockResultSet.getString(3)).thenReturn(sampleClient.getAddress());
-        when(mockResultSet.getString(4)).thenReturn(sampleClient.getPhoneNumber());
-        when(mockResultSet.getString(5)).thenReturn(sampleClient.getNeighborhood());
+    @Test
+    public void testGetClient() throws DAOException, SQLException
+    {
+        ClientModel sample1 = null, sample2 = null;
+        long code = 111334;
+
+        sample1 = new ClientModel(code, "Ramiro",  "12344 Broad Ways",  "23432938", "Dindalito");
+
+        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
+        
+        mockPreparedStatement.setLong(1, sample1.getNumberID());
+        mockPreparedStatement.setString(2, sample1.getName());
+        mockPreparedStatement.setString(3, sample1.getAddress());
+        mockPreparedStatement.setString(4, sample1.getPhoneNumber());
+        mockPreparedStatement.setString(5, sample1.getNeighborhood());
+
+        when(mockPreparedStatement.executeUpdate()).thenReturn(1);    
+
+        daoClient.insertItem(sample1);
+
+        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
+        mockPreparedStatement.setLong(1, code);
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(true);
+        when(mockResultSet.getLong(1)).thenReturn(sample1.getNumberID());
+        when(mockResultSet.getString(2)).thenReturn(sample1.getName());
+        when(mockResultSet.getString(3)).thenReturn(sample1.getAddress());
+        when(mockResultSet.getString(4)).thenReturn(sample1.getPhoneNumber());
+        when(mockResultSet.getString(5)).thenReturn(sample1.getNeighborhood());        
+
+        sample2 = daoClient.getItem(code);
+            
+        assertEquals(sample1.getNumberID(), sample2.getNumberID());
+    }
+
+    @Test
+    public void testUpdateClient() throws DAOException, SQLException
+    {
+        ClientModel sample1 = null, sample2 = null;
+        long code = 111336;
+        String phoneNumberBefore = "", phoneNumberAfter = "";
+
+        sample1 = new ClientModel(code, "Ramiro",  "12344 Broad Ways",  "23432938", "Dindalito");
+
+        phoneNumberBefore = sample1.getPhoneNumber();
+        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);       
+        mockPreparedStatement.setString(1, sample1.getName());
+        mockPreparedStatement.setString(2, sample1.getAddress());
+        mockPreparedStatement.setString(3, sample1.getPhoneNumber());
+        mockPreparedStatement.setString(4, sample1.getNeighborhood());
+        mockPreparedStatement.setLong(5, sample1.getNumberID());
+
         when(mockPreparedStatement.executeUpdate()).thenReturn(1);
-        
-        mockPreparedStatement.setLong(1, sampleClient.getNumberID());
-        mockPreparedStatement.setString(2, sampleClient.getName());
-        mockPreparedStatement.setString(3, sampleClient.getAddress());
-        mockPreparedStatement.setString(4, sampleClient.getPhoneNumber());
-        mockPreparedStatement.setString(5, sampleClient.getNeighborhood());
 
+        daoClient.updateItem(sample1);
+
+        sample1.setPhoneNumber("6465624577");
+
+        daoClient.updateItem(sample1);
+
+        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
+        mockPreparedStatement.setLong(1, sample1.getNumberID());
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(true);
+        when(mockResultSet.getLong(1)).thenReturn(sample1.getNumberID());
+        when(mockResultSet.getString(2)).thenReturn(sample1.getName());
+        when(mockResultSet.getString(3)).thenReturn(sample1.getAddress());
+        when(mockResultSet.getString(4)).thenReturn(sample1.getPhoneNumber());
+        when(mockResultSet.getString(5)).thenReturn(sample1.getNeighborhood());        
+
+        sample2 = daoClient.getItem(code);
+
+        phoneNumberAfter = sample2.getPhoneNumber();
+
+        assertNotEquals(phoneNumberBefore, phoneNumberAfter);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testDeleteClient() throws DAOException, SQLException
+    {
+        ClientModel sample1 = null, sample2 = null;
+        long code = 111337;
+        
+        sample1 = new ClientModel(code, "Ramiro",  "12344 Broad Ways",  "23432938", "Dindalito");
+
+        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
+        mockPreparedStatement.setLong(1, sample1.getNumberID());
+        when(mockPreparedStatement.executeUpdate()).thenReturn(1);
+
+        daoClient.deleteItem(sample1.getNumberID());
+
+        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
+        mockPreparedStatement.setLong(1, sample1.getNumberID());
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(false);
+        
+        sample2 = daoClient.getItem(sample1.getNumberID());
+
+        assertNull(sample2);
+    }
+
+    @Test
+    public void testGetAllClient() throws DAOException, SQLException
+    {
+        ClientModel sample1 = null;
+        List<ClientModel> clientModels = null;
+        long code1 = 111337;
+        
+        sample1 = new ClientModel(code1, "Ramiro",  "12344 Broad Ways",  "23432938", "Dindalito");
+
+        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
+        
+        mockPreparedStatement.setLong(1, sample1.getNumberID());
+        mockPreparedStatement.setString(2, sample1.getName());
+        mockPreparedStatement.setString(3, sample1.getAddress());
+        mockPreparedStatement.setString(4, sample1.getPhoneNumber());
+        mockPreparedStatement.setString(5, sample1.getNeighborhood());
+
+        when(mockPreparedStatement.executeUpdate()).thenReturn(1);
+
+        daoClient.insertItem(sample1);
+        
         when(mockConnection.createStatement()).thenReturn(mockStatement);
         when(mockStatement.executeQuery(any(String.class))).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(true).thenReturn(false);
 
-        daoClient = new ClientDAO();
-        daoClient.setConnection(mockDataSource);
-    }
+        when(mockResultSet.getLong(1)).thenReturn(sample1.getNumberID());
+        when(mockResultSet.getString(2)).thenReturn(sample1.getName());
+        when(mockResultSet.getString(3)).thenReturn(sample1.getAddress());
+        when(mockResultSet.getString(4)).thenReturn(sample1.getPhoneNumber());
+        when(mockResultSet.getString(5)).thenReturn(sample1.getNeighborhood());
 
+        clientModels = daoClient.getAllItems();
 
-    @Test(expected=Exception.class)
-    public void testNullCreateClient() throws SQLException
-    {        
-        daoClient.insertItem(null);
-    }
-
-    @Test
-    public void testInsertClient() throws SQLException
-    {
-        String message = daoClient.insertItem(sampleClient);            
-        assertEquals("", message);
-    }    
-
-    @Test
-    public void testGetClient() throws SQLException
-    {
-        long code = 11133;
-
-        ClientModel clientModel = daoClient.getItem(code);
-            
-        assertEquals(sampleClient.getNumberID(), clientModel.getNumberID());
-    }
-
-    @Test
-    public void testUpdateClient() throws SQLException
-    {
-        sampleClient.setPhoneNumber("6465624577");
-        String message = daoClient.updateItem(sampleClient);
-        ClientModel clientModel = daoClient.getItem(sampleClient.getNumberID());
-            
-        assertEquals(MSGUPDATE, message);            
-        assertEquals(sampleClient.getPhoneNumber() , clientModel.getPhoneNumber());
-    }
-
-    @Test
-    public void testDeleteClient() throws SQLException
-    {
-        long code = 11133;
-
-        String message = daoClient.deleteItem(code);
-
-        assertEquals(MSGDELETE, message);
-    }
-
-    @Test
-    public void testGetAllClient() throws SQLException
-    {
-        List<ClientModel> clientModels = daoClient.getAllItems();
-            
-        assertEquals(sampleClient.getNumberID(), clientModels.get(1).getNumberID());
-        assertEquals(3, clientModels.size());
+        assertEquals(code1, (long) clientModels.get(0).getNumberID());
+        assertEquals(1, clientModels.size());
     }
 
     @AfterEach

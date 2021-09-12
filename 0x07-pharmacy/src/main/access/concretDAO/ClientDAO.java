@@ -6,9 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import javax.sql.DataSource;
 
 import java.util.ArrayList;
+
+import main.access.DAOException.DAOException;
 import main.access.abstractionsDAO.iClientDAO;
 import main.model.users.ClientModel;
 import main.utils.ConnectionDB;
@@ -25,46 +26,45 @@ public class ClientDAO implements iClientDAO
     /**
      * Constant to list all of the client users of the client table (query sql)
      */
-    private static final String GETALLQUERY = "SELECT " + 
-                                              "pv_codigo, pv_nombre, pv_ciudad, pv_direccion " + 
-                                              "FROM proveedor;";
+    private static final String GETALLQUERY = "SELECT " +
+                                              "cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio " + 
+                                              "FROM cliente;";
 
     /**
      * Constant to search a client user by numberID (query sql)
      */
-    private static final String GETQUERY = "SELECT " + 
-                                           "pv_nombre " + 
-                                           "FROM proveedor " +
-                                           "WHERE pv_codigo=?;";
+    private static final String GETONEQUERY = "SELECT " + 
+                                              "cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio " + 
+                                              "FROM cliente WHERE cl_id =?;";
     
     /**
      * Constant to insert a client user (query sql)
      */
-    private static final String INSERTQUERY = "INSERT INTO proveedor " + 
-                                              "(pv_codigo, pv_nombre, pv_ciudad, pv_direccion) " + 
-                                              "VALUES (?, ?, ?, ?);";
+    private static final String INSERTQUERY = "INSERT INTO cliente " + 
+                                              "(cl_id, cl_nombre, cl_direccion, cl_telefono, cl_barrio) " + 
+                                              "VALUES (?, ?, ?, ?, ?);";
     
     /**
      * Constant to update a client user (query sql)
      */                                                     
-    private static final String UDPATEQUERY = "UPDATE proveedor " +
-                                              "SET pv_nombre =?, pv_ciudad =?, pv_direccion =? " + 
-                                              "WHERE pv_codigo=?;";
+    private static final String UDPATEQUERY = "UPDATE cliente " +
+                                              "SET cl_nombre =?, cl_direccion =?, cl_telefono =?, cl_barrio =? " + 
+                                              "WHERE cl_id =?;";
     
     /**
      * Constant to delete a client user (query sql)
      */
-    private static final String DELETEQUERY = "DELETE FROM proveedor " + 
-                                              "WHERE pv_codigo=?;";
+    private static final String DELETEQUERY = "DELETE FROM cliente " + 
+                                              "WHERE cl_id = ?;";
 
     /**
      * Constant to filter a client user by name attribute (query sql)
      */
     /*
     private static final String FILTERBYNAMEQUERY = "SELECT " +
-                                                    "pv_codigo, pv_nombre, pv_ciudad, pv_direccion " +
-                                                    "FROM proveedor " +
-                                                    "WHERE pv_nombre LIKE ?;";
+                                                    "cl_id, cl_nombre, cl_ciudad, cl_direccion " +
+                                                    "FROM cliente " +
+                                                    "WHERE cl_nombre LIKE ?;";
     */
 
     // -----------------------------------------------------------------
@@ -93,38 +93,72 @@ public class ClientDAO implements iClientDAO
     // -----------------------------------------------------------------
 
     /**
+     * Create a client model
+     * @param result Each tuple retrieved from query
+     * @return A client model
+     * @throws SQLException
+     */
+    private ClientModel Converter(ResultSet result) throws SQLException
+    {
+        ClientModel client = new ClientModel(result.getLong(1), 
+                                             result.getString(2), 
+                                             result.getString(3), 
+                                             result.getString(4), 
+                                             result.getString(5));
+        return client;
+    }
+
+    /**
      * Retrieve all of the clients in the Client table database.
      * @return List of the clientsModels.
      */
     @Override
-    public List<ClientModel> getAllItems() 
+    public List<ClientModel> getAllItems() throws DAOException
     {
+        Statement statement = null;
+        ResultSet result = null;
         List<ClientModel> clients = new ArrayList<>();
-        ClientModel client = null;
-
+        
         try
         {
-            Statement statement = conn.createStatement();
-            ResultSet result    = statement.executeQuery(GETALLQUERY);
+            statement = conn.createStatement();
 
+            result = statement.executeQuery(GETALLQUERY);
             while (result.next())
             {
-                client = new ClientModel(result.getLong(1), 
-                                         result.getString(2), 
-                                         result.getString(3), 
-                                         result.getString(4), 
-                                         result.getString(5)); 
-                clients.add(client);
+                clients.add(Converter(result));
             }
-
-            result.close();
-            statement.close();
         }
-        catch (SQLException ex)
+        catch (SQLException ex) 
         {
-            System.out.println("Código : " + ex.getErrorCode() + "\nError :" + ex.getMessage());
+            throw new DAOException("Error in SQL ", ex);
         }
-
+        finally
+        {
+            if (result != null)
+            {
+                try
+                {
+                    result.close();
+                }
+                catch (SQLException ex)
+                {
+                    throw new DAOException("Error in SQL", ex);
+                }
+            }
+            if (statement != null)
+            {
+                try
+                {
+                    statement.close();
+                }
+                catch (SQLException ex)
+                {
+                    throw new DAOException("Error in SQL", ex);
+                }
+            }            
+        }
+        
         return clients;
     }
 
@@ -134,51 +168,79 @@ public class ClientDAO implements iClientDAO
      * @return An instance of ClientModel
      */    
     @Override
-    public ClientModel getItem(Long numberID)
+    public ClientModel getItem(Long numberID) throws DAOException
     {
+        PreparedStatement statement = null;
+        ResultSet result = null;
         ClientModel client = null;
-        
+
         try
         {
-            PreparedStatement statement = conn.prepareStatement(GETQUERY);
+            /*
+            statement = conn.prepareStatement(GETONEQUERY);
             statement.setLong(1, numberID);
-            ResultSet result = statement.executeQuery(GETQUERY);
-            
-            while (result.next())
-            {
-                client = new ClientModel(result.getLong(1), 
-                                         result.getString(2), 
-                                         result.getString(3), 
-                                         result.getString(4), 
-                                         result.getString(5));
-                break;
-            }
 
-            result.close();
-            statement.close();
+            result = statement.executeQuery(GETONEQUERY);
+            */
+            statement = conn.prepareStatement(GETONEQUERY);
+            statement.setLong(1, numberID);
+            result = statement.executeQuery();
+
+            if (result.next())
+            {            
+                client = Converter(result);
+            }
+            else
+            {
+                throw new DAOException("No se ha encontrado ese registro");
+            }
         }
-        catch (SQLException ex)
+        catch (SQLException ex) 
         {
-            System.out.println("Código : " + ex.getErrorCode() + "\nError :" + ex.getMessage());        
+            throw new DAOException("Error in SQL", ex);
+        }
+        finally
+        {
+            if (result != null)
+            {
+                try
+                {
+                    result.close();
+                }
+                catch (SQLException ex)
+                {
+                    throw new DAOException("Error in SQL", ex);
+                }
+            }
+            if (statement != null)
+            {
+                try
+                {
+                    statement.close();
+                }
+                catch (SQLException ex)
+                {
+                    throw new DAOException("Error in SQL", ex);
+                }
+            }            
         }
 
         return client;
     }
 
     /**
-     * Insert a client in the client table database
-     * @param client attribute to insert the client to database
-     * @return Message if there is an error otherwise successful message
+     * Insert a client in the client table database.
+     * @param client attribute to insert the client to database.
      */
     @Override
-    public String insertItem(ClientModel client)
+    public void insertItem(ClientModel client) throws DAOException
     {
-        String message = "";
+        PreparedStatement statement = null;
         int rowsInserted = 0;
 
         try
         {
-            PreparedStatement statement = conn.prepareStatement(INSERTQUERY);
+            statement = conn.prepareStatement(INSERTQUERY);
             statement.setLong(1, client.getNumberID());
             statement.setString(2, client.getName());
             statement.setString(3, client.getAddress());
@@ -186,89 +248,123 @@ public class ClientDAO implements iClientDAO
             statement.setString(5, client.getNeighborhood());
 
             rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0)
+            if (rowsInserted == 0)
             {
-                System.out.println("se ingresó cliente" + client.getName() + " con exito!!");
+                throw new DAOException("Puede que no se haya terminado de insertar");    
             }
-
-            statement.close();
         }
         catch (SQLException ex) 
         {
-            System.out.println("Codigo: " + ex.getErrorCode() + "\nError: " + ex.getMessage());
+            throw new DAOException("Error in SQL", ex);
         }
-
-        return message;
+        finally
+        {
+            if (statement != null)
+            {
+                try
+                {
+                    statement.close();
+                }
+                catch (SQLException ex)
+                {
+                    throw new DAOException("Error in SQL", ex);
+                }
+            }
+        }
     }
 
     /**
-     * Update a client in the Client table database
-     * @param client attribute to update the client to database
-     * @return Message if there is an error otherwise successful message
+     * Update a client in the Client table database.
+     * @param client attribute to update the client to database.
      */
     @Override
-    public String updateItem(ClientModel client) 
+    public void updateItem(ClientModel client) throws DAOException
     {
-        String message = "";
-
+        PreparedStatement statement = null;
+       
         try
         {
-            PreparedStatement statement = conn.prepareStatement(UDPATEQUERY);
-            statement.setLong(1, client.getNumberID());
-            statement.setString(2, client.getName());
-            statement.setString(3, client.getAddress());
-            statement.setString(4, client.getPhoneNumber());
-            statement.setString(5, client.getNeighborhood());
+            statement = conn.prepareStatement(UDPATEQUERY);            
+            statement.setString(1, client.getName());
+            statement.setString(2, client.getAddress());
+            statement.setString(3, client.getPhoneNumber());
+            statement.setString(4, client.getNeighborhood());
+            statement.setLong(5, client.getNumberID());
 
             int rowsUpdated = statement.executeUpdate();
-            if (rowsUpdated > 0)
+            if (rowsUpdated == 0)
             {
-                message = "El registro fue actualizado exitosamente !";
+                throw new DAOException("Puede que no se haya terminado de actualizar");
             }
-
-            statement.close();
         } 
-        catch (SQLException ex)
+        catch (SQLException ex) 
         {
-            message = "Codigo: " + ex.getErrorCode() + "\nError: " + ex.getMessage();
+            throw new DAOException("Error in SQL", ex);
         }
-
-        return message;
+        finally
+        {
+            if (statement != null)
+            {
+                try
+                {
+                    statement.close();
+                }
+                catch (SQLException ex)
+                {
+                    throw new DAOException("Error in SQL", ex);
+                }
+            }
+        }
     }
 
     /**
-     * Delete a client in the Client table database by numberID attribute
-     * @param numberID attribute to find the client
-     * @return Message if there is an error otherwise successful message
+     * Delete a client in the Client table database by numberID attribute.
+     * @param numberID attribute to find the client.
      */    
     @Override
-    public String deleteItem(Long numberID) 
+    public void deleteItem(Long numberID) throws DAOException
     {
-        String message = "";
+        PreparedStatement statement = null;
+        int rowsDeleted = 0;
 
         try
         {
-            PreparedStatement statement = conn.prepareStatement(DELETEQUERY);
+            statement = conn.prepareStatement(DELETEQUERY);
             statement.setLong(1, numberID);
-            int rowsDeleted = statement.executeUpdate();
 
-            if (rowsDeleted > 0)
+            rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted == 0)
             {
-                message = "El registro fue eliminado exitosamente !";
+                throw new DAOException("Puede que no se haya terminado de eliminar");
             }
-
-            statement.close();
         } 
-        catch (SQLException ex)
+        catch (SQLException ex) 
         {
-            message = "Codigo: " + ex.getErrorCode() + "\nError: " + ex.getMessage();
+            throw new DAOException("Error in SQL", ex);
         }
-
-        return message;
+        finally
+        {
+            if (statement != null)
+            {
+                try
+                {
+                    statement.close();
+                }
+                catch (SQLException ex)
+                {
+                    throw new DAOException("Error in SQL", ex);
+                }
+            }
+        }
     }
 
-    public void setConnection(DataSource data) throws SQLException
+    /**
+     * Set the connection to the API sql to test
+     * @param connection A connection instance to excute operation with the database.
+     * @throws SQLException
+     */
+    public void setConnection(Connection connection) throws SQLException
     {
-        this.conn = data.getConnection();
+        this.conn = connection;
     }
 }
