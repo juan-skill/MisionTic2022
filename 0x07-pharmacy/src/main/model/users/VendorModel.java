@@ -46,6 +46,15 @@ public class VendorModel extends ModelUser
     }
 
     /**
+     * Set the city of the vendor user.
+     * @param city to be updated.
+     */
+    public void setCity(String city)
+    {
+        this.city = city;
+    }    
+
+    /**
      * Return a String object representing a vendor instance
      */
     public String toString()
