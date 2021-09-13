@@ -23,7 +23,12 @@ public class ManagerDAO implements iDAOManager
     /**
      * ClienteDAO instance.
      */
-    private ClientDAO clientDAO = null;    
+    private ClientDAO clientDAO = null;
+
+    /**
+     * VendorDAO instance.
+     */
+    private VendorDAO vendorDAO = null;  
 
     // -----------------------------------------------------------------
     // Constructor
@@ -58,5 +63,24 @@ public class ManagerDAO implements iDAOManager
         }
 
         return clientDAO;
+    }
+
+    @Override
+    public VendorDAO getVendorDAO() throws DAOException
+    {
+        if (vendorDAO == null)
+        {
+            vendorDAO = new VendorDAO();
+            try
+            {
+                vendorDAO.setConnection(this.conn);                
+            } 
+            catch (SQLException ex)
+            {
+                throw new DAOException("Error al instanciar el clienteDAO", ex);
+            }
+        }
+
+        return vendorDAO;
     }
 }

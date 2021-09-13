@@ -10,9 +10,12 @@ import javax.swing.UIManager;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import main.access.VendorDAO;
+//import main.access.VendorDAO;
+import main.access.DAOException.DAOException;
+import main.access.concretDAO.ManagerDAO;
 import main.view.viewproveedor.VendorTab;
 import main.controller.VendorController;
+import main.utils.ConnectionDB;
 
 /**
  * Class that represents the main window Frame
@@ -50,7 +53,7 @@ public class MainWindow extends JFrame
     /**
      * MainWindow class constructor method
      */
-    public MainWindow()
+    public MainWindow() throws DAOException
     {
         initComponents();
         startApplication();
@@ -105,9 +108,11 @@ public class MainWindow extends JFrame
     /**
      * Create instances of controller
      */
-    private void startApplication()
+    private void startApplication() throws DAOException
     {
-        new VendorController(this, new VendorDAO());
+        //new VendorController(this, new VendorDAO());
+        ManagerDAO managerDAO = new ManagerDAO(ConnectionDB.getConnection());
+        new VendorController(this, managerDAO.getVendorDAO());
     }
 
     /**
