@@ -26,7 +26,7 @@ public class ButtonPanel extends JPanel
     /**
      * Constant to locate list image.
      */
-    private static final String iconPathbtnlist = "../../images/btnlist.png";
+    private static final String iconPathBtnSave = "../../images/btnlist.png";
 
     /**
      * Constant to locate delete image.
@@ -50,7 +50,7 @@ public class ButtonPanel extends JPanel
     /**
      * Button to list the info into the table.
      */
-    private JButton btnList;
+    private JButton btnSave;
     
     /**
      * Button to delete a record.
@@ -80,12 +80,12 @@ public class ButtonPanel extends JPanel
     /**
      * Image to list.
      */
-    private Image imgBtnList;
+    private Image imgBtnSave;
 
     /**
      * Icon to list.
      */    
-    private Icon iconBtnList;
+    private Icon iconBtnSave;
 
     /**
      * Image to updata.
@@ -138,41 +138,45 @@ public class ButtonPanel extends JPanel
      */    
     public void initComponents()
     {
-        imgBtnList = new ImageIcon(getClass().getResource(iconPathbtnlist)).getImage();
-        iconBtnList = new ImageIcon(imgBtnList.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));        
-        btnList = new JButton("LIST", iconBtnList);
-        btnList.setVerticalTextPosition(JLabel.BOTTOM);
-        btnList.setHorizontalAlignment(JLabel.CENTER);
+        imgBtnSave = new ImageIcon(getClass().getResource(iconPathBtnSave)).getImage();
+        iconBtnSave = new ImageIcon(imgBtnSave.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));        
+        btnSave = new JButton("SAVE", iconBtnSave);
+        btnSave.setVerticalTextPosition(JLabel.BOTTOM);
+        btnSave.setHorizontalAlignment(JLabel.CENTER);
+        btnSave.setEnabled(false);
 
         imgBtnDelete = new ImageIcon(getClass().getResource(iconPathbtndelete)).getImage();
         iconBtnDelete = new ImageIcon(imgBtnDelete.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));
         btnDelete = new JButton("DELETE", iconBtnDelete);
         btnDelete.setVerticalTextPosition(JLabel.BOTTOM);
         btnDelete.setHorizontalAlignment(JLabel.CENTER);
+        btnDelete.setEnabled(false);
 
         imgBtnUpdate = new ImageIcon(getClass().getResource(iconPathbtnupdate)).getImage();
         iconBtnUpdate = new ImageIcon(imgBtnUpdate.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));
         btnUpdate = new JButton("UPDATE", iconBtnUpdate);
         btnUpdate.setVerticalTextPosition(JLabel.BOTTOM);
         btnUpdate.setHorizontalAlignment(JLabel.CENTER);
+        btnUpdate.setEnabled(false);
         
         imgBtnInsert = new ImageIcon(getClass().getResource(iconPathbtninsert)).getImage();
         iconBtnInsert = new ImageIcon(imgBtnInsert.getScaledInstance(30, 30,  Image.SCALE_SMOOTH));        
         btnInsert = new JButton("INSERT", iconBtnInsert);
         btnInsert.setVerticalTextPosition(JLabel.BOTTOM);
         btnInsert.setHorizontalAlignment(JLabel.CENTER);
+        btnInsert.setEnabled(true);
 
         btnOK = new JButton("OK");
         btnOK.setEnabled(false);
 
         tfSearch = new JTextField(10);
 
-        setLayout(new GridLayout(1,3,2,2));                
-        add(btnDelete); 
+        setLayout(new GridLayout(1,3,2,2));
+        add(btnInsert);
         add(btnUpdate);
-        add(btnOK);
-        add(btnList);
-        add(btnInsert);        
+        add(btnDelete); 
+        add(btnSave);
+        add(btnOK);       
         add(tfSearch);
     }
 
@@ -196,8 +200,8 @@ public class ButtonPanel extends JPanel
      * Return btnList button.
      * @return btnList.
      */
-    public JButton getBtnList() {
-        return btnList;
+    public JButton getBtnSave() {
+        return btnSave;
     }
 
     /**
@@ -244,7 +248,7 @@ public class ButtonPanel extends JPanel
         btnUpdate.setEnabled(value);
         btnDelete.setEnabled(value);
         btnInsert.setEnabled(value);
-        btnList.setEnabled(value);
+        btnSave.setEnabled(value);
     }
 
     /**
@@ -254,7 +258,7 @@ public class ButtonPanel extends JPanel
     public void assingListenToBtn(ActionListener evento)
     {
         btnUpdate.addActionListener(evento);
-        btnList.addActionListener(evento);
+        btnSave.addActionListener(evento);
         btnDelete.addActionListener(evento);        
         btnInsert.addActionListener(evento);
         btnOK.addActionListener(evento);

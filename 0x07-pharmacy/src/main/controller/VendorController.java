@@ -2,6 +2,9 @@ package main.controller;
 
 import java.util.List;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -19,7 +22,7 @@ import main.model.users.VendorModel;
 /**
  * Class that represents the Vendor controller (Vendor Tab)
  */
-public class VendorController implements ActionListener, KeyListener
+public class VendorController implements ActionListener, KeyListener, ListSelectionListener
 {
     // -----------------------------------------------------------------
     // Atrributes
@@ -68,6 +71,9 @@ public class VendorController implements ActionListener, KeyListener
        
         this.vButtonPanel.assingListenToBtn(this);
         this.vButtonPanel.assingListenToTField(this);
+        this.vTablePanel.assignListenerSelection(this);
+
+        loadTableData();
     }
 
     // -----------------------------------------------------------------
@@ -127,14 +133,16 @@ public class VendorController implements ActionListener, KeyListener
                 vTablePanel.showAnswer("Problemas con la inserción " + e.getMessage());
             }
         }        
-        if (event.getSource() == vButtonPanel.getBtnList())
+        if (event.getSource() == vButtonPanel.getBtnSave())
         {
+            /*
             try {
                 listaC = model.getAllItems();
                 vTablePanel.mostrarDatosTable(listaC);                
             } catch (DAOException e) {
                 vTablePanel.showAnswer("Problemas al listar");
-            }
+            }*/
+            //loadTableData();
 
         }
         if (event.getSource() == vButtonPanel.getBtnUpdate())
@@ -281,4 +289,25 @@ public class VendorController implements ActionListener, KeyListener
         }
     }
 
+    public void loadTableData()
+    {
+        List<VendorModel> listaC = null;
+
+        try {
+            listaC = model.getAllItems();
+            vTablePanel.mostrarDatosTable(listaC);                
+        } catch (DAOException e) {
+            vTablePanel.showAnswer("Problemas al listar");
+        }
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e)
+    {
+        boolean isSelection = (vTablePanel.getTable().getSelectedRow() != -1);
+
+        vButtonPanel.getBtnUpdate().setEnabled(isSelection);
+        vButtonPanel.getBtnDelete().setEnabled(isSelection);
+        
+    }
 }

@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.Font;
@@ -151,5 +152,14 @@ public class BarPanel extends JPanel
     public JTable getTable()
     {
         return table;
+    }
+
+    /**
+     * The listener interface for receiving action events of the textfield component.
+     * @param event  which indicates that a keystroke occurred in the TextFiel.
+     */
+    public void assignListenerSelection(ListSelectionListener event)
+    {
+        table.getSelectionModel().addListSelectionListener(event);
     }
 }
