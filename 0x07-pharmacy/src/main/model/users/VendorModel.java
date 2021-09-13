@@ -32,6 +32,12 @@ public class VendorModel extends ModelUser
         this.city = city;
     }
 
+    public VendorModel()
+    {
+        super(null, "", "");
+        this.city = "";
+    }
+
     // -----------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------

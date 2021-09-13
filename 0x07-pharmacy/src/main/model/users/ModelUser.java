@@ -55,6 +55,15 @@ public abstract class ModelUser
     }
 
     /**
+     * Set the numberID attribute
+     * @param numberID to set
+     */
+    public void setNumberID(Long numberID)
+    {
+        this.numberID = numberID;
+    }
+
+    /**
      * Return the name of the user.
      * @return Name of the user.
      */
@@ -64,6 +73,15 @@ public abstract class ModelUser
     }
 
     /**
+     * Set the name attribute
+     * @param name to set
+     */
+    public void setName(String name)
+    {
+        this.name = name;
+    } 
+
+    /**
      * Return the address of the user.
      * @return Address of the user.
      */
@@ -71,6 +89,15 @@ public abstract class ModelUser
     {
         return address;
     }
+
+    /**
+     * Set the address attribute
+     * @param address to set
+     */
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }    
 
     /**
      * Return a String object representing a user instance
