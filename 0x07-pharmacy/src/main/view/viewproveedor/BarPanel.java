@@ -36,6 +36,11 @@ public class BarPanel extends JPanel
      */
     private DefaultTableModel tableModel;
 
+    /**
+     * 
+     */
+    private VendorTableModel tableMode;
+
     // -----------------------------------------------------------------
     // Constructor
     // -----------------------------------------------------------------
@@ -57,12 +62,16 @@ public class BarPanel extends JPanel
      */
     public void initComponents()
     {
+        /*
         tableModel = new DefaultTableModel();
         tableModel.addColumn("ID");
         tableModel.addColumn("Name");
         tableModel.addColumn("City");
         tableModel.addColumn("Address");
-        table  = new JTable(tableModel);
+        */
+        table  = new JTable();
+        tableMode = new VendorTableModel();
+        table.setModel(tableMode);
         
         table.setRowHeight(20);
         table.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -90,6 +99,7 @@ public class BarPanel extends JPanel
      */
     public void mostrarDatosTable(List<VendorModel> list)
     {
+        /*
         tableModel = (DefaultTableModel) table.getModel();
         Object[] row = new Object[tableModel.getColumnCount()];
 
@@ -102,7 +112,10 @@ public class BarPanel extends JPanel
             row[2] = ((VendorModel) tuple).getCity();
             row[3] = ((VendorModel) tuple).getAddress();
             tableModel.addRow(row);
-        }   
+        } 
+        */
+        tableMode.updateModel(list);
+        tableMode.fireTableStructureChanged(); 
     }
 
     /**
