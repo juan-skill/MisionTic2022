@@ -112,7 +112,7 @@ public class MainWindow extends JFrame
     {
         //new VendorController(this, new VendorDAO());
         ManagerDAO managerDAO = new ManagerDAO(ConnectionDB.getConnection());
-        new VendorController(this, managerDAO.getVendorDAO());
+        new VendorController(this, managerDAO);
     }
 
     /**
