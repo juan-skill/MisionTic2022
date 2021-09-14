@@ -73,6 +73,11 @@ public class DataPanel extends JPanel
      * Vendor Image.
      */    
     private JLabel vendorImage;
+
+    /**
+     * Flag to active a button
+     */
+    private Boolean editable;    
         
     // -----------------------------------------------------------------
     // Constructor
@@ -107,7 +112,7 @@ public class DataPanel extends JPanel
         tfId.setOpaque(false);
         tfId.setBackground(Color.WHITE);
         tfId.setHorizontalAlignment(JLabel.CENTER);;
-        tfId.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));       
+        tfId.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
         
         lbName = new JLabel("Nombre:         ");
         lbName.setBounds(xLbl, yLbl + (height * 1) + (verticalAlignment * 1), width, height);
@@ -184,6 +189,28 @@ public class DataPanel extends JPanel
     }
 
     /**
+     * Return the status of editable
+     * @return editable status
+     */
+    public boolean getEditable()
+    {
+        return editable;
+    }
+
+    /**
+     * Set the value of editable
+     * @param editable to set status
+     */
+    public void setEditable(Boolean editable)
+    {
+        this.editable = editable;
+        tfName.setEditable(editable);
+        tfAddress.setEditable(editable);
+        tfCity.setEditable(editable);
+        tfId.setEditable(!editable);
+    }
+
+    /**
      * returns the content of the text field tfName.
      * @return a string.
      */    
@@ -229,6 +256,15 @@ public class DataPanel extends JPanel
     }
 
     /**
+     * Set the text of TFieldID
+     * @param id to set id Text field
+     */
+    public void setTFieldID(String id)
+    {
+        this.tfId.setText(id);
+    }
+
+    /**
      * Return Name's TextField
      * @return tfID
      */
@@ -236,6 +272,51 @@ public class DataPanel extends JPanel
     {
         return tfName;
     }
+
+    /**
+     * Set the text of TFieldName
+     * @param name to set the value of Text field
+     */
+    public void setTFieldName(String name)
+    {
+        this.tfName.setText(name);
+    }
+
+    /**
+     * Return tfCity JTextField
+     * @return tfID
+     */
+    public JTextField getTFieldCity()
+    {
+        return tfCity;
+    }
+
+    /**
+     * Set the text of tfName JTextField
+     * @param city to set the value of Text field
+     */
+    public void setTFieldCity(String city)
+    {
+        this.tfCity.setText(city);
+    }
+
+    /**
+     * Return tfAddress JTextField
+     * @return tfAddress
+     */
+    public JTextField getTFieldAddress()
+    {
+        return tfAddress;
+    }
+
+    /**
+     * Set the text of tfAddress JTextField
+     * @param address to set the value of Text field
+     */
+    public void setTFieldAddress(String address)
+    {
+        this.tfAddress.setText(address);
+    }    
 
     /**
      * method that deletes (clears) the textfield that are written on it
