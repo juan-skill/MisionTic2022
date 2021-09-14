@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -33,11 +32,6 @@ public class BarPanel extends JPanel
     private JTable table;
 
     /**
-     * tableModel stores the data for the JTable in a vecto of vectors.
-     */
-    private DefaultTableModel tableModel;
-
-    /**
      * 
      */
     private VendorTableModel tableMode;
@@ -63,13 +57,6 @@ public class BarPanel extends JPanel
      */
     public void initComponents()
     {
-        /*
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("ID");
-        tableModel.addColumn("Name");
-        tableModel.addColumn("City");
-        tableModel.addColumn("Address");
-        */
         table  = new JTable();
         tableMode = new VendorTableModel();
         table.setModel(tableMode);
@@ -100,40 +87,8 @@ public class BarPanel extends JPanel
      */
     public void mostrarDatosTable(List<VendorModel> list)
     {
-        /*
-        tableModel = (DefaultTableModel) table.getModel();
-        Object[] row = new Object[tableModel.getColumnCount()];
-
-        cleanRows();
-        
-        for(Object tuple: list)
-        {
-            row[0] = ((VendorModel) tuple).getNumberID();
-            row[1] = ((VendorModel) tuple).getName();
-            row[2] = ((VendorModel) tuple).getCity();
-            row[3] = ((VendorModel) tuple).getAddress();
-            tableModel.addRow(row);
-        } 
-        */
         tableMode.updateModel(list);
         tableMode.fireTableStructureChanged(); 
-    }
-
-    /**
-     * method that deletes (clears) the rows that are written in a table
-     */
-    public void cleanRows()
-    {
-        tableModel = (DefaultTableModel) table.getModel();
-        int countRows = tableModel.getRowCount();
-        
-        if (countRows > 0)
-        {
-            for (int i = countRows - 1; i >= 0; i--)
-            {
-                tableModel.removeRow(i);
-            }
-        }        
     }
 
     /**
@@ -152,6 +107,15 @@ public class BarPanel extends JPanel
     public JTable getTable()
     {
         return table;
+    }
+
+    /**
+     * Return table model.
+     * @return table model.
+     */
+    public VendorTableModel getTableModel()
+    {
+        return tableMode;
     }
 
     /**
