@@ -2,6 +2,7 @@ package main.controller;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -15,6 +16,7 @@ import main.view.viewproveedor.BarPanel;
 import main.view.viewproveedor.ButtonPanel;
 import main.view.MainWindow;
 import main.access.DAOException.DAOException;
+import main.access.concretDAO.ManagerDAO;
 import main.access.concretDAO.VendorDAO;
 import main.model.users.VendorModel;
 
@@ -51,8 +53,12 @@ public class VendorController implements ActionListener, KeyListener, ListSelect
     /**
      * Panel that represents panel to display info vendor user.
      */    
-    private BarPanel vTablePanel;    
+    private BarPanel vTablePanel;
 
+    /**
+     * Status to indicate if I should update() or insert()
+     */
+    private boolean status = false;
 
     // -----------------------------------------------------------------
     // Constructor
@@ -61,18 +67,20 @@ public class VendorController implements ActionListener, KeyListener, ListSelect
     /**
      * VendorController class constructor method
      */
-    public VendorController(MainWindow view, VendorDAO model)
+    public VendorController(MainWindow view, ManagerDAO managerDAO) throws DAOException
     {
-        this.model = model;
+        this.model = managerDAO.getVendorDAO();
         this.vendorTab = view.getVendorTab();
         this.vDataPanel = vendorTab.getDataPanel();
         this.vButtonPanel = vendorTab.getPanelBotones();        
         this.vTablePanel = vendorTab.getPanelBarras();
-       
+
+        // assing listener
         this.vButtonPanel.assingListenToBtn(this);
         this.vButtonPanel.assingListenToTField(this);
         this.vTablePanel.assignListenerSelection(this);
 
+        // load table's data
         loadTableData();
     }
 
@@ -87,149 +95,93 @@ public class VendorController implements ActionListener, KeyListener, ListSelect
     @Override
     public void actionPerformed(ActionEvent event)
     {        
-        List<VendorModel> listaC = null;
         VendorModel vendor = null;
-        String name = "", city = "", address = "";
-        Long numberID = null;
+        
 
         if (event.getSource() == vButtonPanel.getBtnInsert())
         {
-            try
-            {
-                numberID = Long.parseLong(vDataPanel.getId());
-                
-                if (vDataPanel.getName().compareTo("") != 0)
-                    name = vDataPanel.getName();
-                else
-                {
-                    name = null;
-                    vTablePanel.showAnswer("El campo nombre es obligatorio");
-                }
-
-                if (vDataPanel.getCity().compareTo("") != 0)
-                    city = vDataPanel.getCity();
-                else 
-                    city = null;
-
-                if (vDataPanel.getAddress().compareTo("") != 0)
-                    address = vDataPanel.getAddress();
-                else 
-                    address = null;
-                
-                vendor = new VendorModel(numberID, name, city, address);
-    
-                model.insertItem(vendor);
-                vTablePanel.showAnswer("Inserción exitosa!.");               
-                vDataPanel.cleanTextFiel();
-                listaC = model.getAllItems();
-                vTablePanel.mostrarDatosTable(listaC);
-            }
-            catch (NumberFormatException e)
-            {
-                vTablePanel.showAnswer("Asegurese de ingresar los datos");
-            }
-            catch (DAOException e)
-            {
-                vTablePanel.showAnswer("Problemas con la inserción " + e.getMessage());
-            }
+            vDataPanel.loadData(null);
+            vDataPanel.setEditable(true);
+            vButtonPanel.getBtnSave().setEnabled(true);
+            vButtonPanel.getBtnOK().setEnabled(true);
+            status = false;
         }        
         if (event.getSource() == vButtonPanel.getBtnSave())
         {
-            /*
-            try {
-                listaC = model.getAllItems();
-                vTablePanel.mostrarDatosTable(listaC);                
-            } catch (DAOException e) {
-                vTablePanel.showAnswer("Problemas al listar");
-            }*/
-            //loadTableData();
-
+            vendor = saveModelData();
+            try
+            {
+                if (status == false)
+                    model.insertItem(vendor);
+                else
+                {
+                    model.updateItem(vendor);
+                }
+                
+                vDataPanel.setEditable(false);
+                vTablePanel.getTable().clearSelection();
+                vDataPanel.loadData(null);
+                vButtonPanel.getBtnSave().setEnabled(false);
+                vButtonPanel.getBtnOK().setEnabled(false);
+                vTablePanel.getTable().requestFocus();
+                
+                vTablePanel.getTableModel().updateModel(model.getAllItems());
+                vTablePanel.getTableModel().fireTableDataChanged();
+            }
+            catch (DAOException e)
+            {
+                vTablePanel.showAnswer(e.getMessage());
+            }
         }
         if (event.getSource() == vButtonPanel.getBtnUpdate())
         {
-            int filaEditar = vTablePanel.getTable().getSelectedRow();
-            int numfilas = vTablePanel.getTable().getSelectedRowCount();
-            
-            if (filaEditar >= 0 && numfilas == 1)
+            try
             {
-                vDataPanel.getTFieldID().setText(String.valueOf(vTablePanel.getTable().getValueAt(filaEditar,0)));
-
-                vDataPanel.getTFieldID().setEditable(false);
-                vButtonPanel.disableButton(false);
+                status = true;
+                vendor = getVendorSelected();
+                vDataPanel.setEditable(true);
+                vDataPanel.loadData(vendor);
                 vButtonPanel.getBtnOK().setEnabled(true);
-            }
-            else
+                vButtonPanel.getBtnSave().setEnabled(true);
+                vDataPanel.getTFieldID().requestFocus();
+            } 
+            catch (DAOException ex)
             {
-                vTablePanel.showAnswer("Seleccione registro a editar");
+                vTablePanel.showAnswer(ex.getMessage());
+            }
+            catch (NumberFormatException ex)
+            {
+                vTablePanel.showAnswer("Error campo Identification");
             }
         }
         if (event.getSource() == vButtonPanel.getBtnOK())
         {
-            numberID = Long.parseLong(vDataPanel.getId());            
-            
-            if (vDataPanel.getName().compareTo("") != 0)
-                name = vDataPanel.getName();
-            else
-            {
-                name = null;
-                vTablePanel.showAnswer("El nombre es un campo obligatorio");
-            }
-
-            if (vDataPanel.getCity().compareTo("") != 0)
-                city = vDataPanel.getCity();
-            else 
-                city = null;
-
-            if (vDataPanel.getAddress().compareTo("") != 0)
-                address = vDataPanel.getAddress();
-            else 
-                address = null;
-
-            vendor = new VendorModel(numberID, name, city, address);
-
-            try
-            {                
-                model.updateItem(vendor);
-                vTablePanel.showAnswer("Exitoso OK");
-                vTablePanel.cleanRows();
-    
-                listaC = model.getAllItems();
-                vTablePanel.mostrarDatosTable(listaC);
-        
-                vDataPanel.getTFieldID().setEditable(true);
-                vButtonPanel.disableButton(true);
-                vButtonPanel.getBtnOK().setEnabled(false);                    
-                vDataPanel.cleanTextFiel();
-            } 
-            catch (DAOException e)
-            {
-                vTablePanel.showAnswer("Problemas al listar" + e.getMessage());
-            }          
+            vDataPanel.setEditable(false);
+            vTablePanel.getTable().clearSelection();
+            vDataPanel.loadData(null);
+            vButtonPanel.getBtnSave().setEnabled(false);
+            vButtonPanel.getBtnOK().setEnabled(false);
+            vTablePanel.getTable().requestFocus();
         }
         if (event.getSource() == vButtonPanel.getBtnDelete())
         {
-            try
+            if (JOptionPane.showConfirmDialog(null, 
+                                              "¿Está seguro que quiere eliminar?",
+                                              "Borrar Vendor", 
+                                              JOptionPane.YES_NO_OPTION, 
+                                              JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
             {
-                numberID = Long.parseLong(vDataPanel.getId());
-
-                int answer =  vButtonPanel.confirmeDelete("Desea eliminar registro con number ID: " + numberID + "? ");
-                if (answer == 0)
+                try 
                 {
-                    model.deleteItem(numberID);
-                    vTablePanel.showAnswer("Registro eliminado exitosamente");
+                    vendor = getVendorSelected();
+                    model.deleteItem(vendor.getNumberID());
+                    vTablePanel.getTableModel().updateModel(model.getAllItems());
+                    vTablePanel.getTableModel().fireTableDataChanged();
+                } 
+                catch (DAOException ex) 
+                {
+                    vTablePanel.showAnswer(ex.getMessage());
                 }
-
-                vDataPanel.cleanTextFiel();
-                listaC = model.getAllItems();
-                vTablePanel.mostrarDatosTable(listaC);
-            }
-            catch (NumberFormatException e) 
-            {
-                vTablePanel.showAnswer("Seleccione registro a editar");
-            }
-            catch (DAOException e)
-            {
-                vTablePanel.showAnswer("Problemas al eliminar " + e.getMessage());
             }
         }
     }
@@ -250,7 +202,7 @@ public class VendorController implements ActionListener, KeyListener, ListSelect
             {
                 event.consume();
             }
-        }        
+        }
         if (event.getSource() == vDataPanel.getTFieldName())
         {
             char c = event.getKeyChar();
@@ -289,18 +241,10 @@ public class VendorController implements ActionListener, KeyListener, ListSelect
         }
     }
 
-    public void loadTableData()
-    {
-        List<VendorModel> listaC = null;
-
-        try {
-            listaC = model.getAllItems();
-            vTablePanel.mostrarDatosTable(listaC);                
-        } catch (DAOException e) {
-            vTablePanel.showAnswer("Problemas al listar");
-        }
-    }
-
+    /**
+     * Called whenever the value of the selection changes.
+     * @param e ListSelectionEvent to get resource from invoke
+     */
     @Override
     public void valueChanged(ListSelectionEvent e)
     {
@@ -308,6 +252,51 @@ public class VendorController implements ActionListener, KeyListener, ListSelect
 
         vButtonPanel.getBtnUpdate().setEnabled(isSelection);
         vButtonPanel.getBtnDelete().setEnabled(isSelection);
-        
+    }
+
+    /**
+     * Load data to the table from database
+     */    
+    public void loadTableData() throws DAOException
+    {
+        List<VendorModel> listVendors = model.getAllItems();
+        vTablePanel.mostrarDatosTable(listVendors);
+    }
+
+    /**
+     * Get the data from getSelectedRow
+     * @return A VendorModel instance to retrieved from dabase
+     * @throws DAOException
+     */
+    public VendorModel getVendorSelected() throws DAOException
+    {
+        Long numberID = null;
+
+        numberID = (Long) vTablePanel.getTable().getValueAt(vTablePanel.getTable().getSelectedRow(), 0);
+
+        return model.getItem(numberID);
+    }
+
+    /**
+     * Retrieve the text of the text field.
+     * @return VendorModel instance.
+     */
+    public VendorModel saveModelData()
+    {
+        VendorModel vendor = new VendorModel();
+
+        try
+        {
+            vendor.setNumberID(Long.parseLong(vDataPanel.getTFieldID().getText().trim()));
+            vendor.setName(vDataPanel.getTFieldName().getText().trim());
+            vendor.setAddress(vDataPanel.getTFieldAddress().getText().trim());
+            vendor.setCity(vDataPanel.getTFieldCity().getText().trim());
+        }
+        catch (NumberFormatException ex)
+        {
+            vTablePanel.showAnswer(ex.getMessage());
+        }
+
+        return vendor;
     }
 }
