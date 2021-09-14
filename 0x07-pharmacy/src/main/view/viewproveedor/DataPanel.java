@@ -3,6 +3,9 @@ package main.view.viewproveedor;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import main.model.users.VendorModel;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Image;
@@ -77,7 +80,7 @@ public class DataPanel extends JPanel
     /**
      * Flag to active a button
      */
-    private Boolean editable;    
+    private Boolean editable = false;    
         
     // -----------------------------------------------------------------
     // Constructor
@@ -207,43 +210,7 @@ public class DataPanel extends JPanel
         tfName.setEditable(editable);
         tfAddress.setEditable(editable);
         tfCity.setEditable(editable);
-        tfId.setEditable(!editable);
-    }
-
-    /**
-     * returns the content of the text field tfName.
-     * @return a string.
-     */    
-    public String getName()
-    {
-        return tfName.getText().trim();
-    }
-
-    /**
-     * Return the content of the text field tfId.
-     * @return a string.
-     */
-    public String getId()
-    {
-        return tfId.getText().trim();
-    }
-
-    /**
-     * Return the content of the text field tfCity.
-     * @return a string.
-     */    
-    public String getCity()
-    {
-        return tfCity.getText().trim();
-    }
-
-    /**
-     * Return the content of the text field tfAddress.
-     * @return a string.
-     */    
-    public String getAddress()
-    {
-        return tfAddress.getText().trim();
+        tfId.setEditable(editable);
     }
 
     /**
@@ -255,31 +222,13 @@ public class DataPanel extends JPanel
         return tfId;
     }
 
-    /**
-     * Set the text of TFieldID
-     * @param id to set id Text field
-     */
-    public void setTFieldID(String id)
-    {
-        this.tfId.setText(id);
-    }
-
-    /**
+     /**
      * Return Name's TextField
      * @return tfID
      */
     public JTextField getTFieldName()
     {
         return tfName;
-    }
-
-    /**
-     * Set the text of TFieldName
-     * @param name to set the value of Text field
-     */
-    public void setTFieldName(String name)
-    {
-        this.tfName.setText(name);
     }
 
     /**
@@ -292,15 +241,6 @@ public class DataPanel extends JPanel
     }
 
     /**
-     * Set the text of tfName JTextField
-     * @param city to set the value of Text field
-     */
-    public void setTFieldCity(String city)
-    {
-        this.tfCity.setText(city);
-    }
-
-    /**
      * Return tfAddress JTextField
      * @return tfAddress
      */
@@ -310,23 +250,27 @@ public class DataPanel extends JPanel
     }
 
     /**
-     * Set the text of tfAddress JTextField
-     * @param address to set the value of Text field
+     * Load the data in the text field
+     * @param vendor A vendorModel instance to set fields
      */
-    public void setTFieldAddress(String address)
+    public void loadData(VendorModel vendorModel)
     {
-        this.tfAddress.setText(address);
-    }    
+        if (vendorModel != null)
+        {
+            tfId.setText(vendorModel.getNumberID().toString());
+            tfName.setText(vendorModel.getName());
+            tfCity.setText(vendorModel.getCity());
+            tfAddress.setText(vendorModel.getAddress());
+        }
+        else
+        {
+            tfId.setText("");
+            tfName.setText("");
+            tfCity.setText("");
+            tfAddress.setText("");
+        }
 
-    /**
-     * method that deletes (clears) the textfield that are written on it
-     */
-    public void cleanTextFiel()
-    {
-        tfId.setText("");
-        tfId.setEditable(true);
-        tfName.setText("");
-        tfCity.setText("");
-        tfAddress.setText("");
+        tfId.requestFocus();
     }
+
 }
