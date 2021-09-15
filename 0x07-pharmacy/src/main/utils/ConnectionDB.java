@@ -10,10 +10,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.json.simple.*;
 import org.json.simple.parser.*;
+
+import main.access.DAOException.DAOException;
 
 
 /**
@@ -130,6 +135,48 @@ public class ConnectionDB
             catch (SQLException ex)
             {
                 ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Releases this ResultSet object's database and JDBC resources immediately
+     * instead of waiting for this to happen when it is automatically closed.
+     * @param result resourt from API JDBC
+     * @throws DAOException
+     */
+    public static void closeStatement(ResultSet result) throws DAOException
+    {
+        if (result != null)
+        {
+            try
+            {
+                result.close();
+            }
+            catch (SQLException ex)
+            {
+                throw new DAOException("Error in SQL", ex);
+            }
+        }
+    }
+
+    /**
+     * Releases this ResultSet object's database and JDBC resources immediately
+     * instead of waiting for this to happen when it is automatically closed.
+     * @param result resourt from API JDBC
+     * @throws DAOException
+     */    
+    public static void closeStatement(Statement statement) throws DAOException
+    {
+        if (statement != null)
+        {
+            try
+            {
+                statement.close();
+            }
+            catch (SQLException ex)
+            {
+                throw new DAOException("Error in SQL", ex);
             }
         }
     }
